@@ -14,14 +14,18 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 ## The two producers
 
-- **`swarm run --agent`** (in swarm-cli) writes a `provenance` block + `changed_files` in its
-  run-record for the workers it launches. (Producer 1; lives in swarm-cli.)
+- **`swarm run --agent`** (in [swarm-cli](https://github.com/jcosta33/swarm-cli)) writes a `provenance`
+  block + `changed_files` in its run-record for the workers it launches. (Producer 1; optional — only
+  if you use swarm-cli.)
 - **`hooks/delegations.sh`** (here) appends one NDJSON line per `SubagentStart`/`SubagentStop` to
-  `.swarm/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2.)
+  `.swarm/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
+  producer a copy-install actually runs.) Its structured fields are **currently partial**: on Claude
+  Code v2.1.173, `worker` and `evidence` populate but `reason`/`inputs`/`tools`/`could_edit` fall to
+  `null` (recoverable via `raw.transcript_path`) — see [hooks/README.md](../hooks/README.md).
 
 ## Alignment with the standards (don't reinvent names)
 
-- **HDP** (Human Delegation Provenance — arXiv 2604.04522; IETF
+- **HDP** (Human Delegation Provenance — a 2026 preprint + early-stage IETF draft: arXiv 2604.04522;
   draft-helixar-hdp-agentic-delegation-00) defines a signed, append-only delegation trace (delegating
   agent id/type, timestamp, action summary, parent-hop index, chained Ed25519 signatures over prior
   hops). It is more rigorous than our plaintext NDJSON, and it draws the **same boundary we do**: it
@@ -37,6 +41,8 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 Reviewability and attribution — *who* was delegated *what*, with which tools and edit rights, and what
 came back. **Not** a behavioral guarantee, and **not** tamper-evident (plaintext, unsigned — that's
-the HDP upgrade path). See `enforcement.md` for the boundary.
+the HDP upgrade path). The trace can contain prompt and model-output content in plaintext; it is
+gitignored (`.swarm/work/`), but treat it as sensitive at rest, like a transcript. See
+`enforcement.md` for the boundary.
 
 Sources: see [sources.md](./sources.md).

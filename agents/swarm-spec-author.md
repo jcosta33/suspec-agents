@@ -30,8 +30,10 @@ sandbox. Write only the spec; do not modify code or other artifacts.
    grepable property, a named human check). A requirement you can't verify is an opinion; sharpen or cut.
 4. **Record ambiguities as open questions**, do not resolve them by guessing. A blocking question stays
    open.
-5. **Draft into `specs/<feature>/spec.md`** in the kit's spec shape (`status: draft`), scope + out-of-scope
-   stated.
+5. **Draft into `specs/<feature>/spec.md`** (`status: draft`, scope + out-of-scope stated) — one
+   verifiable requirement per id, each with its `Verify with:` line. (The kit's
+   [`templates/spec.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/templates/spec.md) is
+   the richer reference if present — not required.)
 
 ## What you must not do
 

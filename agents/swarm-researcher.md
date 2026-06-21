@@ -29,8 +29,10 @@ isolation + the trace, not a sandbox.
    `[unconfirmed]`.
 4. **Where sources disagree, compare them side by side** and say what each would imply — do not
    silently pick the convenient one.
-5. **Draft the note** (the kit's research shape): the question, the findings each with a checkable
-   citation, the open trade-offs, and an explicit "commits to no decision" close.
+5. **Draft the note** in this shape — the question, the findings each with a checkable citation, the
+   open trade-offs, and an explicit "commits to no decision" close. (The kit's
+   [`advanced/research.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/advanced/research.md)
+   is the richer reference if present — not required.)
 
 ## What you must not do
 

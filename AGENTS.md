@@ -5,14 +5,17 @@ Claude-Code-first worker definitions for Swarm roles, one file per agent under `
 delegation-provenance + read-only-guard hooks under `hooks/`, and the evidence behind their design
 under `docs/`. It is a derived-content repo — it carries no Swarm workspace install; the work of
 changing it is planned and reviewed in the family workspace (the sibling `swarm-hq` repo). The
-founding decision is `swarm/docs/adrs/0092-swarm-agents-member.md`.
+founding decision is [ADR-0092](https://github.com/jcosta33/swarm/blob/main/docs/adrs/0092-swarm-agents-member.md)
+(the `ADR-NNNN` citations here are decision records in the
+[swarm repo](https://github.com/jcosta33/swarm/tree/main/docs/adrs)).
 
 ## What this is NOT
 
 Not an orchestrator, not a runtime, not a multi-agent loop. A catalog of definitions + two hooks are
-**records and tripwires, never an executor** (ADR-0077 / ADR-0088). The only sanctioned launcher is
-`swarm run --agent`; in-session subagents are spawned by your own runner. The absence of orchestration
-stays observable.
+**records and tripwires, never an executor** (ADR-0077 / ADR-0088). The only CLI launcher is
+`swarm run --agent` (optional, in [swarm-cli](https://github.com/jcosta33/swarm-cli)); the standalone
+path these definitions support — in-session subagents spawned by your own runner's Agent tool — needs
+no CLI. The absence of orchestration stays observable.
 
 ## Editing rules
 

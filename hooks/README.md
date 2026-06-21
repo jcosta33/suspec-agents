@@ -31,11 +31,16 @@ and `evidence` via `.last_assistant_message` (on `SubagentStop`); `reason`/`inpu
 are not in that version's payload, so they fall to `null` — the whole event is kept under `raw`, and
 `raw.transcript_path` lets a reviewer recover the rest. Re-check the field names on your version.
 
-## `readonly-guard.sh` — a write-ish-Bash tripwire (PreToolUse) for Tier-1 agents
+## `readonly-guard.sh` — a write-ish-Bash tripwire (PreToolUse) for Bash-holding agents
 
 The read-only workers drop Edit/Write but keep Bash (to re-run Verify), and a shell can still write.
-This `PreToolUse` hook `exit 2`-blocks the obvious source-mutating / destructive / publish idioms
-(`git commit`/`push`/`add`/`reset`, `sed -i`, `rm`/`mv`/`chmod`/`chown`, `*publish`).
+This `PreToolUse` hook `exit 2`-blocks the obvious source-mutating / destructive / publish idioms —
+`git commit`/`push`/`add`/`reset`/`restore`/`stash`/`rm`/`checkout`/`clean`/`switch` (matched by
+subcommand, so `git -C <dir> commit` and `git --no-pager push` are caught too), `sed -i`,
+`rm`/`rmdir`/`mv`/`chmod`/`chown`, and `*publish` — anchored to each segment's leading command word
+(after peeling `sudo`/`xargs` wrappers, a leading subshell `(`/`{`, and `VAR=val` prefixes). It is a
+global `Bash` matcher, so it fires for **any** agent granted Bash: the Tier-1 reviewer/evidence-checker
+and — where you want their shell use kept read-only — the Tier-2 `swarm-auditor`/`swarm-documentarian`.
 
 ```json
 {
@@ -48,8 +53,9 @@ This `PreToolUse` hook `exit 2`-blocks the obvious source-mutating / destructive
 ## Honest scope (read this)
 
 These are **toolable/partial** (ADR-0063), not "enforced":
-- The guard is a **tripwire, not a wall** — a write inside `python`/`node`, a heredoc to an editor, or
-  base64 can evade it; output redirections (`>`/`tee`) are deliberately **not** matched (too
+- The guard is a **tripwire, not a wall** — a write where the leading word looks innocent still escapes
+  (`find . -exec rm {} \;`, a write inside `python`/`node`, a heredoc to an editor, base64, or `xargs`
+  of an unlisted writer); output redirections (`>`/`tee`) are deliberately **not** matched (too
   false-positive-prone against legit build/test writes) — tune the denylist to your repo.
 - Both hooks are **defeasible**: a parent in `bypassPermissions`/`acceptEdits`/`auto`, or a
   plugin-loaded subagent, bypasses hooks entirely (claude-code#25000 / #43142 / #54898).

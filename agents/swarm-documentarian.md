@@ -38,5 +38,6 @@ examples, don't change the code. Value = the discipline + isolation + the trace,
 ## Grounding
 
 Self-contained, grounded in the canon (human-facing docs, examples run, claims cited).
-*Optional see-also, if you use them:* the `persona-documentarian` stance + the `write-documentation`
+*Optional see-also, if you use them:* the `persona-documentarian` stance + the
+[`write-documentation`](https://github.com/jcosta33/swarm-skills/tree/main/skills/write-documentation)
 guide (both swarm-skills). Not dependencies.

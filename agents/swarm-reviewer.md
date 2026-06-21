@@ -33,9 +33,11 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
    Unverified, never Pass.
 4. **Read what did not change but should have** — callers of changed surfaces, tests, docs — and walk
    the diff for changes tracing to no requirement in scope.
-5. **Draft the review packet** in the kit's `templates/review.md` shape: `status: draft`, each coverage
-   row's Result left to the human, evidence cells filled with what you re-ran, out-of-scope and
-   human-attention items surfaced, file:line per finding.
+5. **Draft the review packet** in this shape — `status: draft`; one coverage row per requirement id
+   with its evidence cell filled from what you re-ran and its Result left to the human; out-of-scope
+   and human-attention items surfaced; file:line per finding. (The kit's
+   [`templates/review.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/templates/review.md)
+   is the richer reference if the consuming repo has it — not required.)
 
 ## What you must not do
 
@@ -51,5 +53,6 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
 Self-contained: the rules above stand on their own, grounded in the Swarm canon (ADR-0056 adversarial
 self-review, ADR-0077 reconcile-only / a record never a verdict). *Optional see-also, if you use them:*
 this is the runner projection of `persona-skeptic` (the refute-by-default stance, in swarm-skills) and
-the kit's `review-output` guide (the packet procedure); the packet format is `templates/review.md`.
+the kit's `review-output` guide (the packet procedure); the packet format is the kit's
+[`templates/review.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/templates/review.md).
 You do not need them installed — they are not a dependency.

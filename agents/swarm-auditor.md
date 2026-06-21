@@ -29,8 +29,10 @@ discipline + isolation + the trace, not a sandbox.
    where the area touches them.
 4. **Rank findings by impact** (blast radius), not as a flat list; severity is about consequence, not
    tidiness.
-5. **Draft the audit** (the kit's `advanced/audit.md` shape): each finding = observation + evidence +
-   severity, file:line throughout. Present state only.
+5. **Draft the audit** in this shape — each finding = observation + evidence + severity, file:line
+   throughout; present state only. (The kit's
+   [`advanced/audit.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/advanced/audit.md) is
+   the richer reference if present — not required.)
 
 ## What you must not do
 

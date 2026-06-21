@@ -58,7 +58,10 @@ for seg in $(printf '%s' "$cmd" | tr ';|&\n' '\n\n\n\n'); do
                 seg="${seg#* }" ;;
             [A-Za-z_]*=*)
                 case "${seg%% *}" in           # only if the FIRST token is itself NAME=val (not `cmd a=b`)
-                    *=*) seg="${seg#* }" ;;
+                    *=*) case "$seg" in
+                             *" "*) seg="${seg#* }" ;;  # a command follows -> drop the assignment
+                             *) break ;;                # bare assignment, no command -> stop (no infinite loop)
+                         esac ;;
                     *) break ;;
                 esac ;;
             *) break ;;

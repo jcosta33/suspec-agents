@@ -26,6 +26,11 @@ It records the ADR-0088 fields (`worker`, `reason`, `inputs`, `filtered`, `tools
 `jq` to your version's actual SubagentStart/Stop field names. (`SubagentStart` fires but **cannot
 block**; it is for the trace, not enforcement.)
 
+Verified end-to-end against **Claude Code v2.1.173** (Jun 2026): `worker` resolves via `.agent_type`
+and `evidence` via `.last_assistant_message` (on `SubagentStop`); `reason`/`inputs`/`tools`/`could_edit`
+are not in that version's payload, so they fall to `null` — the whole event is kept under `raw`, and
+`raw.transcript_path` lets a reviewer recover the rest. Re-check the field names on your version.
+
 ## `readonly-guard.sh` — a write-ish-Bash tripwire (PreToolUse) for Tier-1 agents
 
 The read-only workers drop Edit/Write but keep Bash (to re-run Verify), and a shell can still write.

@@ -23,6 +23,11 @@ payload="$(cat 2>/dev/null || true)"    # Claude Code delivers the event JSON on
 if command -v jq >/dev/null 2>&1 && printf '%s' "$payload" | jq -e . >/dev/null 2>&1; then
     # Map YOUR Claude Code version's SubagentStart/Stop fields onto the ADR-0088 schema. The keys below
     # are best-effort fallbacks — verify them against your version's hook payload and adjust the jq.
+    # Verified against Claude Code v2.1.173: SubagentStart carries {agent_id, agent_type, cwd,
+    # session_id, transcript_path}; SubagentStop adds {last_assistant_message, permission_mode, effort,
+    # agent_transcript_path, ...}. So `worker` resolves via .agent_type and `evidence` via
+    # .last_assistant_message; `reason`/`inputs`/`tools`/`could_edit` are not in the payload (they fall
+    # to null — the full event is preserved under `raw`, and `transcript_path` lets a reviewer dig).
     printf '%s' "$payload" | jq -c \
         --arg ts "$ts" --arg event "$event" \
         '{ts: $ts, event: $event,
@@ -32,7 +37,7 @@ if command -v jq >/dev/null 2>&1 && printf '%s' "$payload" | jq -e . >/dev/null 
           filtered: (.filtered // null),
           tools: (.tools // null),
           could_edit: .could_edit,
-          evidence: (.result // .summary // null),
+          evidence: (.last_assistant_message // .result // .summary // null),
           raw: .}' >> "$out"
 else
     # No jq, or a non-JSON payload: still record the event + timestamp so the trace is never silently

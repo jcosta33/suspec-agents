@@ -1,0 +1,35 @@
+# Sources
+
+The evidence behind swarm-agents' design and its honest-scope claims. Verified in the deep-research
+refresh of 2026-06-21 (swarm-hq `specs/swarm-agents/research-shipping.md`, 3-vote adversarial
+verification); re-check primary sources before relying on a version-specific detail.
+
+## Claude Code subagents (the authoring + enforcement surface)
+- Claude Code — Subagents (frontmatter fields, scopes, isolation, `tools`/`disallowedTools`,
+  `permissionMode`, `PreToolUse` blocking, `SubagentStart`/`SubagentStop`, built-in agents):
+  https://code.claude.com/docs/en/sub-agents
+
+## The bypass / honest-limit evidence
+- claude-code#25000 — subagent Bash tool-scoping bypass (bare-name deny rules dropped before
+  evaluation): https://github.com/anthropics/claude-code/issues/25000
+- claude-code#43142, #54898 — related open subagent permission/bypass reports:
+  https://github.com/anthropics/claude-code/issues/43142 ·
+  https://github.com/anthropics/claude-code/issues/54898
+
+## The runner landscape (founding-gate evidence)
+- GitHub Copilot — custom agents configuration:
+  https://docs.github.com/en/copilot/reference/custom-agents-configuration
+- Gemini CLI — subagents: https://github.com/google-gemini/gemini-cli/blob/main/docs/core/subagents.md
+- Cursor — subagents (reads `.claude/agents/`): https://cursor.com/docs/context/subagents
+
+## Delegation-provenance prior art (vocab alignment)
+- HDP — Human Delegation Provenance: https://arxiv.org/abs/2604.04522 ·
+  https://datatracker.ietf.org/doc/draft-helixar-hdp-agentic-delegation/
+- OpenTelemetry GenAI agent spans + the open delegation-attributes proposal:
+  https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/ ·
+  https://github.com/open-telemetry/semantic-conventions-genai/issues/35
+
+## Swarm canon (the contract + the spine)
+- ADR-0088 (delegation-provenance contract), ADR-0077 (reconcile-only / a record never a verdict),
+  ADR-0056 (adversarial self-review), ADR-0063 (honesty framework / levels), ADR-0092 (founding
+  swarm-agents) — in `swarm/docs/adrs/`.

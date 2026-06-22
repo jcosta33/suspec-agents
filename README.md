@@ -113,7 +113,7 @@ shell use kept read-only._
 - [`isolation.md`](./docs/isolation.md) — fresh-context isolation and how it is defeated (fork mode,
   parent permission modes).
 - [`provenance.md`](./docs/provenance.md) — the ADR-0088 delegation trace, aligned with HDP + OpenTelemetry.
-- [`runners.md`](./docs/runners.md) — why Claude-Code-first, and why no portable cross-runner format yet.
+- [`runners.md`](./docs/runners.md) — Claude-Code-first, and how it ports: `swarm agents emit --codex` generates the Codex form from the single-source defs; the `AGENTS.md` discipline is the universal layer (enforcement stays Claude-Code-only).
 - [`sources.md`](./docs/sources.md) — the bibliography.
 
 ## Security

@@ -16,11 +16,16 @@ verification); re-check primary sources before relying on a version-specific det
   https://github.com/anthropics/claude-code/issues/43142 ·
   https://github.com/anthropics/claude-code/issues/54898
 
-## The runner landscape (founding-gate evidence)
-- GitHub Copilot — custom agents configuration:
-  https://docs.github.com/en/copilot/reference/custom-agents-configuration
-- Gemini CLI — subagents: https://github.com/google-gemini/gemini-cli/blob/main/docs/core/subagents.md
-- Cursor — subagents (reads `.claude/agents/`): https://cursor.com/docs/context/subagents
+## The runner landscape (founding-gate + portability-survey evidence)
+- GitHub Copilot — custom agents (`.github/agents/*.md`, optional `tools`, default all):
+  https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-custom-agents
+- VS Code Copilot — also reads `.claude/agents/*.md` (Claude format):
+  https://code.visualstudio.com/docs/agent-customization/custom-agents
+- Gemini CLI — subagents (`.gemini/agents/*.md`, `tools` array, inherit-all default): https://github.com/google-gemini/gemini-cli/blob/main/docs/core/subagents.md
+- Cursor — subagents (reads `.claude/agents/` as "Claude compatibility"; coarse `readonly`): https://cursor.com/docs/subagents
+- OpenAI Codex — subagents (TOML `.codex/agents/*.toml`; `developer_instructions` + optional `model`): https://developers.openai.com/codex/subagents
+- Google Antigravity — managed agents (created programmatically; fixed base model; auto-loads `.agents/AGENTS.md` + a `name`+`description` `SKILL.md`): https://ai.google.dev/gemini-api/docs/custom-agents
+- AGENTS.md — the open cross-tool guidance format (site reports 60k+ projects): https://agents.md
 
 ## Delegation-provenance prior art (vocab alignment)
 - HDP — Human Delegation Provenance: https://arxiv.org/abs/2604.04522 ·

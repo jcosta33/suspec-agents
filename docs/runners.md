@@ -1,6 +1,9 @@
-# Runners: why Claude-Code-first, and why not portable (yet)
+# Runners: Claude-Code-first, and how it ports (Codex + the universal layer)
 
-swarm-agents ships Claude Code definitions only. Here is the honest reasoning — and what would change it.
+swarm-agents authors **Claude Code definitions** as the single source, and **ports them** to a second
+runner by generation: `swarm agents emit --codex` (swarm-cli) emits `.codex/agents/*.toml` from the
+`agents/*.md` files, and the shared discipline ports through the open `AGENTS.md` format (ADR-0098).
+Here is the honest reasoning — what travels, what does not, and why Antigravity was dropped.
 
 ## Why Claude Code first
 
@@ -47,18 +50,30 @@ Antigravity (`.agents/skills/<name>/SKILL.md`, identical shape
 guidance-only harnesses and Antigravity through `AGENTS.md` + `SKILL.md`, even though the per-agent
 *definition* does not.
 
-## Why no portable file (yet)
+## The portable layer (shipped — ADR-0098)
 
-The survey refines, not reverses, the honest picture. A Claude-Code-shaped definition's *role* is
+The portable layer is built, narrowed to what is honest. A Claude-Code-shaped definition's *role* is
 already portable into Cursor, VS Code Copilot, and Devin via their cross-reads — but **tool-scoping
-enforcement and the provenance hook still do not travel** (the gate-1 finding: the prose discipline
-ports, structural enforcement does not). A single per-agent file across *all* harnesses would either
-lie about enforcement on the weaker runners or collapse to a `name`/`description`/instructions/tool-list
-lowest common denominator, and the two carrier outliers share no markdown file at all. So the honest
-scope is unchanged: **Claude-Code-first definitions now; a portable layer later, on demonstrated
-demand.** The surveyed *direction* (to spec, not a commitment): a canonical core that passes through
-to the markdown camp, two thin adapters (Codex TOML, Antigravity), and `AGENTS.md` + `SKILL.md` as the
-universal discipline layer — built only when demand clears the ADR-0092 gate.
+enforcement and the provenance hook do not travel** (the gate-1 finding: the prose discipline ports,
+structural enforcement does not). Rather than a single per-agent file that lies about enforcement on
+weaker runners, the design is **one source, generated adapters**:
+
+- **Codex emitter — shipped.** `swarm agents emit --codex` (swarm-cli) generates `.codex/agents/*.toml`
+  from the `agents/*.md` definitions (`developer_instructions` = the body). It is reuse, not a second
+  hand-maintained copy — re-run after editing a definition. Every emitted file's header states that the
+  `tools` allowlist and the hooks are Claude-Code-only and do not travel; a Codex adopter scopes tools
+  in their own config.
+- **The universal `AGENTS.md` discipline — formalized.** The shared discipline (evidence over
+  assertion, reconcile-only/no-verdict, the trace as reviewability, honesty levels) is single-sourced
+  in this repo's `AGENTS.md`, the open cross-tool format read by Codex, Cursor, Copilot, Gemini CLI,
+  and Aider. The per-agent files are its Claude-Code specialization — no hand-duplicated `SKILL.md`.
+- **Antigravity — dropped.** Google Antigravity's managed agents are configured programmatically, not
+  via a portable definition file, so there is no honest file-emitter target. The universal `AGENTS.md`
+  discipline reaches it without an adapter; no Antigravity emitter ships.
+
+What stays the honest exception: **value measured across ≥2 real external runner teams** (ADR-0092's
+gate) is un-fabricatable, so it remains a standing owner-run activity — the emitter + universal layer
+ship; the value proof does not get faked.
 
 ## Per-agent model — an optional adopter knob (not shipped)
 

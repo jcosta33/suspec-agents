@@ -17,6 +17,33 @@ Not an orchestrator, not a runtime, not a multi-agent loop. A catalog of definit
 path these definitions support — in-session subagents spawned by your own runner's Agent tool — needs
 no CLI. The absence of orchestration stays observable.
 
+## Portability — the universal layer (ADR-0098)
+
+These definitions are **Claude-Code-first**, but the *prose discipline* is portable, so the catalog
+reaches other runners without a second hand-maintained copy:
+
+- **The definitions are the single source.** `swarm agents emit --codex`
+  ([swarm-cli](https://github.com/jcosta33/swarm-cli)) projects each `agents/*.md` into an OpenAI Codex
+  `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never duplicates
+  — re-run it after editing a definition; do not hand-edit the TOML.
+- **`AGENTS.md` is the open cross-tool format.** This file's discipline — evidence over assertion
+  (ADR-0056), reconcile-only / no self-issued verdict (ADR-0077 D8), the delegation trace as
+  reviewability not a guarantee (ADR-0088), honesty levels (ADR-0063) — is the layer that ports to any
+  runner that reads an `AGENTS.md` (Codex, Cursor, Copilot, Gemini CLI, Aider). It is the universal
+  contract; the per-worker files are the Claude-Code specialization of it.
+- **What does NOT travel (honest scope, ADR-0098).** The `tools` allowlist and the `hooks/`
+  (`readonly-guard`, the delegation-provenance trace) are **Claude-Code structural mechanisms** — they
+  do not port. A Codex (or other) adopter gets the prose discipline and must grant/deny tools in their
+  own runner config; the read-only guarantee is honor-system there. Every emitted file says so in its
+  header. Enforcement is Claude-Code-only; the discipline is everywhere.
+- **Antigravity: considered, dropped (ADR-0098).** Google Antigravity's managed agents are configured
+  programmatically, not via a portable definition file, so there is no honest file-emitter target — the
+  universal `AGENTS.md` discipline (this file's prose; no separate `SKILL.md` is generated) is the only
+  thing that reaches it, and that needs no adapter. No Antigravity emitter ships.
+- **The do-not-found gate / measurement wave is the honest exception (ADR-0092).** Demonstrating value
+  across ≥2 *real external* runner teams is un-fabricatable here; it stays a standing owner-run
+  activity, not a build item.
+
 ## Editing rules
 
 - **One agent per file:** `agents/<name>.md` — Claude Code subagent format (YAML frontmatter + a body

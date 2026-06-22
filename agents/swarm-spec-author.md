@@ -45,5 +45,5 @@ sandbox. Write only the spec; do not modify code or other artifacts.
 ## Grounding
 
 Self-contained, grounded in the canon (intent as verifiable requirements; the human owns acceptance).
-*Optional see-also, if you use them:* the `persona-architect` stance (swarm-skills) + the kit's
-`write-spec` guide. Not dependencies.
+*Optional see-also, if you use it:* the kit's `write-spec` guide, which carries the architect
+discipline (the standalone persona folded into the guide — swarm ADR-0093). Not a dependency.

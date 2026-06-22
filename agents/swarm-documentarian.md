@@ -38,6 +38,7 @@ examples, don't change the code. Value = the discipline + isolation + the trace,
 ## Grounding
 
 Self-contained, grounded in the canon (human-facing docs, examples run, claims cited).
-*Optional see-also, if you use them:* the `persona-documentarian` stance + the
+*Optional see-also, if you use it:* the
 [`write-documentation`](https://github.com/jcosta33/swarm-skills/tree/main/skills/write-documentation)
-guide (both swarm-skills). Not dependencies.
+guide (swarm-skills), which carries the documentarian discipline (the standalone persona folded into
+the guide — swarm ADR-0093). Not a dependency.

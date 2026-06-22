@@ -45,5 +45,5 @@ isolation + the trace, not a sandbox.
 ## Grounding
 
 Self-contained, grounded in the canon (research informs; it never binds the decision).
-*Optional see-also, if you use them:* the `persona-researcher` stance (swarm-skills) + the kit's
-`write-research` guide. Not dependencies.
+*Optional see-also, if you use it:* the kit's `write-research` guide, which carries the researcher
+discipline (the standalone persona folded into the guide — swarm ADR-0093). Not a dependency.

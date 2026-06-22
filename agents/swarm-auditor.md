@@ -46,5 +46,5 @@ discipline + isolation + the trace, not a sandbox.
 ## Grounding
 
 Self-contained, grounded in the canon (a present-state record with evidence; the human decides what to
-do about it). *Optional see-also, if you use them:* the `persona-auditor` stance (swarm-skills) + the
-kit's `write-audit` guide. Not dependencies.
+do about it). *Optional see-also, if you use it:* the kit's `write-audit` guide, which carries the
+auditor discipline (the standalone persona folded into the guide — swarm ADR-0093). Not a dependency.

@@ -1,6 +1,6 @@
 # Provenance: the delegation trace
 
-When an agent delegates to a subagent, swarm-agents leaves a reviewable record of the handoff. The
+When an agent delegates to a subagent, corpus-agents leaves a reviewable record of the handoff. The
 contract is canon (ADR-0088); this is how the producers here emit it and how it relates to the wider
 standards.
 
@@ -14,11 +14,11 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 ## The two producers
 
-- **`swarm run --agent`** (in [swarm-cli](https://github.com/jcosta33/swarm-cli)) writes a `provenance`
+- **`corpus run --agent`** (in [corpus-cli](https://github.com/jcosta33/corpus-cli)) writes a `provenance`
   block + `changed_files` in its run-record for the workers it launches. (Producer 1; optional — only
-  if you use swarm-cli.)
+  if you use corpus-cli.)
 - **`hooks/delegations.sh`** (here) appends one NDJSON line per `SubagentStart`/`SubagentStop` to
-  `.swarm/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
+  `.corpus/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
   producer a copy-install actually runs.) Its structured fields are **currently partial**: on Claude
   Code v2.1.173, `worker` and `evidence` populate but `reason`/`inputs`/`tools`/`could_edit` fall to
   `null` (recoverable via `raw.transcript_path`) — see [hooks/README.md](../hooks/README.md).
@@ -29,7 +29,7 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
   draft-helixar-hdp-agentic-delegation-00) defines a signed, append-only delegation trace (delegating
   agent id/type, timestamp, action summary, parent-hop index, chained Ed25519 signatures over prior
   hops). It is more rigorous than our plaintext NDJSON, and it draws the **same boundary we do**: it
-  provides the *record*, not enforcement of actions against scope ("an application-layer concern").
+  provides the _record_, not enforcement of actions against scope ("an application-layer concern").
   Treat HDP as the rigorous future (signing, tamper-evidence); our fields are the lightweight, same-
   shape record.
 - **OpenTelemetry GenAI** conventions give reusable attribute names —
@@ -39,10 +39,10 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 ## What it buys
 
-Reviewability and attribution — *who* was delegated *what*, with which tools and edit rights, and what
+Reviewability and attribution — _who_ was delegated _what_, with which tools and edit rights, and what
 came back. **Not** a behavioral guarantee, and **not** tamper-evident (plaintext, unsigned — that's
 the HDP upgrade path). The trace can contain prompt and model-output content in plaintext; it is
-gitignored (`.swarm/work/`), but treat it as sensitive at rest, like a transcript. See
+gitignored (`.corpus/work/`), but treat it as sensitive at rest, like a transcript. See
 `enforcement.md` for the boundary.
 
 Sources: see [sources.md](./sources.md).

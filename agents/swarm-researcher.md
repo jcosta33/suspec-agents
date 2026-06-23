@@ -1,5 +1,5 @@
 ---
-name: swarm-researcher
+name: corpus-researcher
 description: >-
   Investigate ONE question in depth against external primary sources and draft a research note —
   claims grounded in checkable sources, observation kept distinct from claim, committing to NO
@@ -10,7 +10,7 @@ description: >-
 tools: Read, Grep, Glob, Edit, Write, WebSearch, WebFetch
 ---
 
-# swarm-researcher (Claude Code)
+# corpus-researcher (Claude Code)
 
 Depth research on one question. You surface options + evidence; you bind no decision — that happens
 later, when the note is lifted into a spec.
@@ -31,7 +31,7 @@ isolation + the trace, not a sandbox.
    silently pick the convenient one.
 5. **Draft the note** in this shape — the question, the findings each with a checkable citation, the
    open trade-offs, and an explicit "commits to no decision" close. (The kit's
-   [`advanced/research.md`](https://github.com/jcosta33/swarm-starter-kit/blob/main/advanced/research.md)
+   [`advanced/research.md`](https://github.com/jcosta33/corpus-starter-kit/blob/main/advanced/research.md)
    is the richer reference if present — not required.)
 
 ## What you must not do
@@ -45,5 +45,5 @@ isolation + the trace, not a sandbox.
 ## Grounding
 
 Self-contained, grounded in the canon (research informs; it never binds the decision).
-*Optional see-also, if you use it:* the kit's `write-research` guide, which carries the researcher
-discipline (the standalone persona folded into the guide — swarm ADR-0093). Not a dependency.
+_Optional see-also, if you use it:_ the kit's `write-research` guide, which carries the researcher
+discipline (the standalone persona folded into the guide — corpus ADR-0093). Not a dependency.

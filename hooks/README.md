@@ -6,17 +6,35 @@ executor or a guarantee** — they raise reviewability and the bar, nothing more
 
 ## `delegations.sh` — delegation-provenance (ADR-0088 producer 2)
 
-`swarm run --agent` records a provenance block for the workers **it** launches (producer 1). But
+`corpus run --agent` records a provenance block for the workers **it** launches (producer 1). But
 **in-session subagents** — the ones the main agent spawns through Claude Code's own Agent tool —
 never touch the CLI. This hook is producer 2: one NDJSON trace line per subagent event in
-`.swarm/work/delegations.ndjson`, so delegation is reviewable too. A record, never a verdict
+`.corpus/work/delegations.ndjson`, so delegation is reviewable too. A record, never a verdict
 (ADR-0077 D8); always exits 0, so provenance never blocks the agent.
 
 ```json
 {
   "hooks": {
-    "SubagentStart": [{ "hooks": [{ "type": "command", "command": ".claude/hooks/delegations.sh SubagentStart" }] }],
-    "SubagentStop":  [{ "hooks": [{ "type": "command", "command": ".claude/hooks/delegations.sh SubagentStop" }] }]
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/delegations.sh SubagentStart"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/delegations.sh SubagentStop"
+          }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -41,12 +59,19 @@ subcommand, so `git -C <dir> commit` and `git --no-pager push` are caught too; a
 `rm`/`rmdir`/`mv`/`chmod`/`chown`, and `*publish` — anchored to each segment's leading command word
 (after peeling `sudo`/`xargs` wrappers, a leading subshell `(`/`{`, and `VAR=val` prefixes). It is a
 global `Bash` matcher, so it fires for **any** agent granted Bash: the Tier-1 reviewer/evidence-checker
-and — where you want their shell use kept read-only — the Tier-2 `swarm-auditor`/`swarm-documentarian`.
+and — where you want their shell use kept read-only — the Tier-2 `corpus-auditor`/`corpus-documentarian`.
 
 ```json
 {
   "hooks": {
-    "PreToolUse": [{ "matcher": "Bash", "hooks": [{ "type": "command", "command": ".claude/hooks/readonly-guard.sh" }] }]
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": ".claude/hooks/readonly-guard.sh" }
+        ]
+      }
+    ]
   }
 }
 ```
@@ -54,6 +79,7 @@ and — where you want their shell use kept read-only — the Tier-2 `swarm-audi
 ## Honest scope (read this)
 
 These are **toolable/partial** (ADR-0063), not "enforced":
+
 - The guard is a **tripwire, not a wall** — a write where the leading word looks innocent still escapes
   (`find . -exec rm {} \;`, a write inside `python`/`node`, a heredoc to an editor, base64, or `xargs`
   of an unlisted writer; a quoted `git -c` value with a space — `git -c user.name='Jo Co' commit` —

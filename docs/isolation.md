@@ -1,7 +1,7 @@
 # Isolation: fresh context, and how it is defeated
 
 Why a delegated worker's fresh context is useful, and the exact conditions under which it is not — so
-swarm-agents claims only what holds.
+corpus-agents claims only what holds.
 
 ## What holds (default, non-fork)
 
@@ -17,19 +17,19 @@ with refute-by-default review: an independent context is what makes "judge it fr
 ## What defeats it
 
 - **Fork mode.** `CLAUDE_CODE_FORK_SUBAGENT=1` makes a subagent **inherit the full conversation, system
-  prompt, tools, model, and history** — isolation is gone. swarm-agents assumes default (non-fork); if
+  prompt, tools, model, and history** — isolation is gone. corpus-agents assumes default (non-fork); if
   your environment forks subagents, the independence claim does not hold.
-- **The prompt carries whatever the parent puts in it.** Isolation is about *inherited* context, not
+- **The prompt carries whatever the parent puts in it.** Isolation is about _inherited_ context, not
   the task prompt — a parent can still paste its framing into the prompt. Independence is structural
-  for *history*, conventional for *framing*.
+  for _history_, conventional for _framing_.
 - **Nested depth is fixed at five** (a depth-5 subagent loses the Agent tool) — not an isolation
   defeat, but a bound worth knowing for multi-hop delegation.
 
-## What swarm-agents claims
+## What corpus-agents claims
 
 Fresh-context independence **by default**, which is real and useful — with the fork-mode and
 prompt-framing caveats above stated, not hidden. Combined with the delegation trace (`provenance.md`),
-you get a worker whose inputs and context-filtering are *recorded* and whose history is *isolated* —
+you get a worker whose inputs and context-filtering are _recorded_ and whose history is _isolated_ —
 reviewability, not a security boundary (see `enforcement.md`).
 
 Sources: see [sources.md](./sources.md).

@@ -1,12 +1,12 @@
 #!/bin/sh
-# Read-only guard (PreToolUse, Bash) — swarm-agents.
+# Read-only guard (PreToolUse, Bash) — corpus-agents.
 #
-# The Tier-1 read-only workers (swarm-reviewer, swarm-evidence-checker) drop Edit/Write from their
+# The Tier-1 read-only workers (corpus-reviewer, corpus-evidence-checker) drop Edit/Write from their
 # tools allowlist but KEEP Bash — because they must re-run a task's Verify commands. A shell can still
 # write, so this hook is a TRIPWIRE, not a wall: it `exit 2`-blocks the obvious source-mutating /
 # destructive / publish idioms a reviewer should never reach for, raising the bar against
-# edit-via-shell. (It also covers the Bash-holding Tier-2 authoring agents — swarm-auditor,
-# swarm-documentarian — when you want their shell use kept read-only; the matcher is a global Bash
+# edit-via-shell. (It also covers the Bash-holding Tier-2 authoring agents — corpus-auditor,
+# corpus-documentarian — when you want their shell use kept read-only; the matcher is a global Bash
 # PreToolUse hook, so it fires for ANY agent granted Bash.) It is NOT a guarantee (ADR-0063 —
 # "toolable/partial", never "enforced"):
 #   - it matches each segment's LEADING command word (after folding subshell/brace delimiters `(){}`
@@ -123,7 +123,7 @@ done
 IFS="$oldifs"
 
 if [ -n "$deny" ]; then
-    printf 'read-only guard: blocked a write-ish/destructive Bash command:\n  %s\nswarm-agents read-only workers re-run Verify and report — they do not mutate source. Make the change a separate task. (toolable/partial — a tripwire, not a guarantee.)\n' "$cmd" >&2
+    printf 'read-only guard: blocked a write-ish/destructive Bash command:\n  %s\ncorpus-agents read-only workers re-run Verify and report — they do not mutate source. Make the change a separate task. (toolable/partial — a tripwire, not a guarantee.)\n' "$cmd" >&2
     exit 2
 fi
 

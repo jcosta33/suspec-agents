@@ -1,29 +1,29 @@
-# AGENTS.md — swarm-agents
+# AGENTS.md — corpus-agents
 
 This repo is the optional **agent-definition** catalog for the Corpus framework: self-contained,
 Claude-Code-first worker definitions for Corpus roles, one file per agent under `agents/`, the
 delegation-provenance + read-only-guard hooks under `hooks/`, and the evidence behind their design
 under `docs/`. It is a derived-content repo — it carries no Corpus workspace install; the work of
-changing it is planned and reviewed in the family workspace (the sibling `swarm-hq` repo). The
-founding decision is [ADR-0092](https://github.com/jcosta33/swarm/blob/main/docs/adrs/0092-swarm-agents-member.md)
+changing it is planned and reviewed in the family workspace (the sibling `corpus-hq` repo). The
+founding decision is [ADR-0092](https://github.com/jcosta33/corpus/blob/main/docs/adrs/0092-corpus-agents-member.md)
 (the `ADR-NNNN` citations here are decision records in the
-[swarm repo](https://github.com/jcosta33/swarm/tree/main/docs/adrs)).
+[corpus repo](https://github.com/jcosta33/corpus/tree/main/docs/adrs)).
 
 ## What this is NOT
 
 Not an orchestrator, not a runtime, not a multi-agent loop. A catalog of definitions + two hooks are
 **records and tripwires, never an executor** (ADR-0077 / ADR-0088). The only CLI launcher is
-`swarm run --agent` (optional, in [swarm-cli](https://github.com/jcosta33/swarm-cli)); the standalone
+`corpus run --agent` (optional, in [corpus-cli](https://github.com/jcosta33/corpus-cli)); the standalone
 path these definitions support — in-session subagents spawned by your own runner's Agent tool — needs
 no CLI. The absence of orchestration stays observable.
 
 ## Portability — the universal layer (ADR-0098)
 
-These definitions are **Claude-Code-first**, but the *prose discipline* is portable, so the catalog
+These definitions are **Claude-Code-first**, but the _prose discipline_ is portable, so the catalog
 reaches other runners without a second hand-maintained copy:
 
-- **The definitions are the single source.** `swarm agents emit --codex`
-  ([swarm-cli](https://github.com/jcosta33/swarm-cli)) projects each `agents/*.md` into an OpenAI Codex
+- **The definitions are the single source.** `corpus agents emit --codex`
+  ([corpus-cli](https://github.com/jcosta33/corpus-cli)) projects each `agents/*.md` into an OpenAI Codex
   `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never duplicates
   — re-run it after editing a definition; do not hand-edit the TOML.
 - **`AGENTS.md` is the open cross-tool format.** This file's discipline — evidence over assertion
@@ -41,7 +41,7 @@ reaches other runners without a second hand-maintained copy:
   universal `AGENTS.md` discipline (this file's prose; no separate `SKILL.md` is generated) is the only
   thing that reaches it, and that needs no adapter. No Antigravity emitter ships.
 - **The do-not-found gate / measurement wave is the honest exception (ADR-0092).** Demonstrating value
-  across ≥2 *real external* runner teams is un-fabricatable here; it stays a standing owner-run
+  across ≥2 _real external_ runner teams is un-fabricatable here; it stays a standing owner-run
   activity, not a build item.
 
 ## Editing rules
@@ -57,7 +57,7 @@ reaches other runners without a second hand-maintained copy:
 - **Self-contained + canon-grounded:** the body carries its own discipline, grounded in the durable
   canon ADRs (ADR-0056 self-review, ADR-0077 reconcile-only/no-verdict, ADR-0088 trace). It must read
   correctly with nothing else installed. A persona/guide is an OPTIONAL one-line "pairs with … if you
-  use it" see-also — never a dependency (personas live in `swarm-skills`; core/authoring guides in the
+  use it" see-also — never a dependency (personas live in `corpus-skills`; core/authoring guides in the
   starter kit). Nothing here depends on a persona.
 - **Honesty (ADR-0063):** never label anything "enforced". Read-only scoping is **toolable/partial**
   (defeasible — see `docs/enforcement.md`); a trace buys reviewability/attribution, not a guarantee.
@@ -67,6 +67,6 @@ reaches other runners without a second hand-maintained copy:
 
 ## Commands
 
-| Slot | Command | Resolves |
-|---|---|---|
-| — | (none) | markdown + shell-hook repo; content is checked by review (the swarm-hq workspace cuts and reviews changes) |
+| Slot | Command | Resolves                                                                                                    |
+| ---- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| —    | (none)  | markdown + shell-hook repo; content is checked by review (the corpus-hq workspace cuts and reviews changes) |

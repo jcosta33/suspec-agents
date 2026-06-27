@@ -8,12 +8,17 @@ guarantees it. **Nothing in corpus-agents is "enforced."**
 
 For the _static_ path, Claude Code does narrow what a subagent can reach:
 
-- **`tools` is an allowlist** — a tool absent from the list cannot be called. So a read-only worker
-  whose list excludes Edit and Write cannot call Edit or Write. (Caveat: **omitting `tools` inherits
-  ALL tools** — scoping is opt-in; our read-only agents set the list explicitly.)
+- **`tools` is an allowlist — this is what actually removes Edit/Write.** A tool absent from the list
+  cannot be called, so a read-only worker whose list excludes Edit and Write cannot call Edit or Write.
+  (Caveat: **omitting `tools` inherits ALL tools** — scoping is opt-in; our read-only agents set the
+  list explicitly.)
 - **`disallowedTools`** removes tools (including `mcp__*` to strip MCP).
-- **`PreToolUse` hooks that `exit 2`** block an operation before it runs — the basis of
-  `readonly-guard.sh`.
+- **`PreToolUse` hooks that `exit 2`** can block an operation before it runs — the mechanism behind
+  `readonly-guard.sh`. But the guard is **only a tripwire layered over the `tools` allowlist** (which is
+  what genuinely drops Edit/Write): it pattern-matches a handful of write idioms and, as its own header
+  documents, is walked around by a write inside `python`/`node`, a heredoc, a redirection, or any
+  unlisted writer. It stops an honest reflexive `git commit`, **not** a determined write — so it is not
+  enforcement, only a higher bar (see the honor-system section below).
   [code.claude.com/docs/en/sub-agents]
 
 ## What is NOT a guarantee (honor-system / defeasible)

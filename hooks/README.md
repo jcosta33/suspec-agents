@@ -52,6 +52,10 @@ are not in that version's payload, so they fall to `null` — the whole event is
 ## `readonly-guard.sh` — a write-ish-Bash tripwire (PreToolUse) for Bash-holding agents
 
 The read-only workers drop Edit/Write but keep Bash (to re-run Verify), and a shell can still write.
+**The `tools` allowlist is what actually removes Edit/Write; this hook is an honest TRIPWIRE layered
+over it** — it stops an honest reflexive write (a stray `git commit`), not a determined one. Its own
+header (and the [Honest scope](#honest-scope-read-this) section below) documents the bypasses —
+python/node writes, heredocs, redirections, unlisted writers — so do not read it as enforcement.
 This `PreToolUse` hook `exit 2`-blocks the obvious source-mutating / destructive / publish idioms —
 `git commit`/`push`/`add`/`reset`/`restore`/`stash`/`rm`/`checkout`/`clean`/`switch` (matched by
 subcommand, so `git -C <dir> commit` and `git --no-pager push` are caught too; a read-only

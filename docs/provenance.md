@@ -19,9 +19,13 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
   if you use corpus-cli.)
 - **`hooks/delegations.sh`** (here) appends one NDJSON line per `SubagentStart`/`SubagentStop` to
   `.corpus/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
-  producer a copy-install actually runs.) Its structured fields are **currently partial**: on Claude
-  Code v2.1.173, `worker` and `evidence` populate but `reason`/`inputs`/`tools`/`could_edit` fall to
-  `null` (recoverable via `raw.transcript_path`) — see [hooks/README.md](../hooks/README.md).
+  producer a copy-install actually runs.) **What it actually ships, on the only verified Claude Code
+  version (v2.1.173), is a timestamped worker+output log** — not the full ADR-0088 trace: only `worker`
+  and `evidence` populate; `reason`/`inputs`/`tools`/`could_edit` ship `null` (the raw event is kept, so
+  the rest is recoverable via `raw.transcript_path`). Describe it as what it is — a per-handoff record of
+  _who_ ran and _what came back_, with a timestamp — not as the richer reason/inputs/tools trace the
+  contract defines. The fuller fields are the upgrade path as the payload exposes them, not a current
+  claim. See [hooks/README.md](../hooks/README.md).
 
 ## Alignment with the standards (don't reinvent names)
 
@@ -39,9 +43,10 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 ## What it buys
 
-Reviewability and attribution — _who_ was delegated _what_, with which tools and edit rights, and what
-came back. **Not** a behavioral guarantee, and **not** tamper-evident (plaintext, unsigned — that's
-the HDP upgrade path). The trace can contain prompt and model-output content in plaintext; it is
+Reviewability and attribution — as shipped (producer 2 today), _who_ ran and _what came back_, with a
+timestamp; the contract's _with which tools / edit rights / why_ fields are defined but ship `null` on
+the verified version (recoverable from the raw event). **Not** a behavioral guarantee, and **not**
+tamper-evident (plaintext, unsigned — that's the HDP upgrade path). The trace can contain prompt and model-output content in plaintext; it is
 gitignored (`.corpus/work/`), but treat it as sensitive at rest, like a transcript. See
 `enforcement.md` for the boundary.
 

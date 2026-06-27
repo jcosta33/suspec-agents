@@ -1,0 +1,53 @@
+name: codex-sync
+
+# The .codex no-diff guard (SPEC-agents-mcp-rearchitecture AC-005 / AUDIT-corpus-agents F7).
+# `.codex/agents/*.toml` is GENERATED from `agents/*.md` and committed; this job fails the build when
+# the committed `.codex/` drifts from what `corpus agents emit --codex` produces, so a stale TOML is
+# caught in CI rather than discovered later.
+
+on:
+  push:
+    paths:
+      - 'agents/**'
+      - '.codex/**'
+      - 'scripts/check-codex-sync.sh'
+      - '.github/workflows/codex-sync.yml'
+  pull_request:
+    paths:
+      - 'agents/**'
+      - '.codex/**'
+      - 'scripts/check-codex-sync.sh'
+      - '.github/workflows/codex-sync.yml'
+
+jobs:
+  check-codex-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out corpus-agents
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Install the corpus CLI so `corpus agents emit --codex` is available. Replace this with the real
+      # install once corpus-cli is published (e.g. `npm i -g @corpus/cli`); until then, check out the
+      # sibling corpus-cli and point the guard at it via CORPUS_EMIT.
+      - name: Install corpus CLI (sibling checkout — prereq)
+        uses: actions/checkout@v4
+        with:
+          repository: jcosta33/corpus-cli
+          path: corpus-cli
+      - name: Build corpus CLI
+        working-directory: corpus-cli
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Run the .codex no-diff guard
+        env:
+          # The guard auto-detects `corpus` on PATH or ../corpus-cli/bin/corpus.js; CORPUS_EMIT pins it
+          # explicitly to the checkout above.
+          CORPUS_EMIT: 'node corpus-cli/bin/corpus.js'
+        run: bash scripts/check-codex-sync.sh

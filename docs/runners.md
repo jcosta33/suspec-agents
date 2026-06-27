@@ -63,6 +63,14 @@ weaker runners, the design is **one source, generated adapters**:
   hand-maintained copy — re-run after editing a definition. Every emitted file's header states that the
   `tools` allowlist and the hooks are Claude-Code-only and do not travel; a Codex adopter scopes tools
   in their own config.
+- **The `.codex` no-diff guard — shipped (AC-005).** The generated TOMLs are committed (so Codex users
+  get them on clone, O3) and committed generated files drift — commit `ed424df` already had to
+  "regenerate stale .codex toml" (AUDIT-corpus-agents F7). [`scripts/check-codex-sync.sh`](../scripts/check-codex-sync.sh)
+  re-runs the real emitter (`corpus agents emit --codex --from agents --force`), then `git diff
+  --exit-code -- .codex/` and **fails when the committed `.codex/` drifted** — also catching an _orphan_
+  TOML (a deleted agent whose generated file lingers, since emit only writes, never deletes). It is a
+  check, not an executor (ADR-0077): it edits nothing. [`.github/workflows/codex-sync.yml`](../.github/workflows/codex-sync.yml)
+  runs it in CI on any change to `agents/**` or `.codex/**`; locally, `bash scripts/check-codex-sync.sh`.
 - **The universal `AGENTS.md` discipline — formalized.** The shared discipline (evidence over
   assertion, reconcile-only/no-verdict, the trace as reviewability, honesty levels) is single-sourced
   in this repo's `AGENTS.md`, the open cross-tool format read by Codex, Cursor, Copilot, Gemini CLI,
@@ -80,9 +88,10 @@ ship; the value proof does not get faked.
 These definitions pin **no** `model:` — they inherit the session model, so a definition never rots when
 a new model ships (ADR-0092). But Claude Code subagents _support_ a `model:` frontmatter field, and the
 cost/quality spread is real (a Haiku scout vs a capable judge). Since you copy and adapt these files,
-add it yourself where cost-tiering pays off — e.g. `model: haiku` on `corpus-explorer` /
-`corpus-evidence-checker` (cheap read-only scouts), a stronger model on `corpus-reviewer` /
-`corpus-challenger` (judgement). We ship no defaults on purpose; the knob is yours.
+add it yourself where cost-tiering pays off — e.g. `model: haiku` on a cheap read-only scout (the
+built-in Explore agent, or `corpus-reviewer` in its proof-first mode), a stronger model on
+`corpus-reviewer` for a full review / `corpus-challenger` (judgement). We ship no defaults on purpose;
+the knob is yours.
 
 ## The gate this bears on
 

@@ -1,8 +1,8 @@
 #!/bin/sh
 # Read-only guard (PreToolUse, Bash) — corpus-agents.
 #
-# The Tier-1 read-only workers (corpus-reviewer, corpus-evidence-checker) drop Edit/Write from their
-# tools allowlist but KEEP Bash — because they must re-run a task's Verify commands. A shell can still
+# The Tier-1 read-only worker (corpus-reviewer, including its proof-first mode) drops Edit/Write from
+# its tools allowlist but KEEPS Bash — because it must re-run a task's Verify commands. A shell can still
 # write, so this hook is a TRIPWIRE, not a wall: it `exit 2`-blocks the obvious source-mutating /
 # destructive / publish idioms a reviewer should never reach for, raising the bar against
 # edit-via-shell. (It also covers the Bash-holding Tier-2 authoring agents — corpus-auditor,

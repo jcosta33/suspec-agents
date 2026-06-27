@@ -1,9 +1,9 @@
 # corpus-agents
 
 > Optional, Claude-Code-first **worker definitions** for the [Corpus](https://github.com/jcosta33/corpus)
-> roles — independent review, exploration, evidence-checking, and bounded authoring — each a
-> self-contained Claude Code subagent you copy into a repo. Records and tripwires, never an
-> orchestrator.
+> roles — independent review (with a proof-first evidence mode), pre-commitment challenge, and bounded
+> authoring (spec · research · audit · docs) — each a self-contained Claude Code subagent you copy into a
+> repo. Records and tripwires, never an orchestrator. (For code-location, use the built-in Explore agent.)
 
 Each agent runs a Corpus role in a **fresh, isolated context**, with its tools scoped to the work, and
 (with the hook) leaves a **delegation trace** for review — partially structured and version-dependent
@@ -55,9 +55,12 @@ You need none of these to run Corpus — the [starter kit](https://github.com/jc
 ships the loop. Add an agent when delegating that role to an isolated, scoped subagent earns its keep:
 
 1. **`corpus-reviewer`** — the first one most want: an independent, read-only reviewer for a finished
-   task or PR that re-runs the Verify checks and drafts a packet without issuing the verdict.
-2. **A read-only helper** — `corpus-explorer` to map a codebase, `corpus-evidence-checker` to re-run and
-   paste Verify output.
+   task or PR that re-runs the Verify checks and drafts a packet without issuing the verdict. When you
+   only need the checks re-run and the evidence pasted (not a full packet), run it in its
+   **proof-first mode** — the role the retired `corpus-evidence-checker` used to fill.
+2. **For code-location** — use the built-in **Explore** agent (read-only Read/Grep/Glob, same
+   locate/trace mandate); the depth discipline lives in the `codebase-exploration` skill in
+   [corpus-skills](https://github.com/jcosta33/corpus-skills). There is no separate `corpus-explorer`.
 3. **A bounded-authoring worker** — `corpus-spec-author` / `corpus-researcher` / `corpus-auditor` /
    `corpus-documentarian` — when you want a disciplined, isolated, traced first draft of one artifact.
 
@@ -78,15 +81,19 @@ Their `tools` allowlist excludes Edit/Write; the ones that keep `Bash` (to re-ru
 the `readonly-guard` hook. **Scoping is toolable/partial — it narrows the surface, it is not a
 guarantee** (see [The science](#the-science)).
 
-| Agent                                                            | Use it when                                                                                                            |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [`corpus-reviewer`](./agents/corpus-reviewer.md)                 | Independently reviewing a finished task/PR (or a 1:1 review-to-spec) — re-run Verify, draft the packet + staleness pins, **no verdict** |
-| [`corpus-explorer`](./agents/corpus-explorer.md)                 | Orienting in a codebase read-only — locate/trace how something works and report (no edits, no Bash)                    |
-| [`corpus-evidence-checker`](./agents/corpus-evidence-checker.md) | Re-running a task's Verify items and pasting verbatim output; flagging claims without evidence                         |
-| [`corpus-challenger`](./agents/corpus-challenger.md)             | Pressure-testing a proposal/spec/plan before it is built — assumptions, the steelmanned alternative, external evidence |
+| Agent                                                | Use it when                                                                                                            |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [`corpus-reviewer`](./agents/corpus-reviewer.md)     | Reviewing a **finished** task/PR (or a 1:1 review-to-spec) — re-run Verify, draft the packet + staleness pins, **no verdict**. Its **proof-first mode** re-runs the Verify items and pastes verbatim output only — the role the retired `corpus-evidence-checker` filled |
+| [`corpus-challenger`](./agents/corpus-challenger.md) | Pressure-testing a **not-yet-built** proposal/spec/plan — assumptions, the steelmanned alternative, external evidence  |
 
-_Of these, only `corpus-reviewer` and `corpus-evidence-checker` hold `Bash` (so the `readonly-guard`
-applies to them); `corpus-explorer` and `corpus-challenger` have no Bash and need no guard._
+For **code-location** ("where is X / how does Y work / what calls Z") use the **built-in Explore agent**
+(same read-only Read/Grep/Glob tools and locate/trace mandate) plus the `codebase-exploration` skill in
+[corpus-skills](https://github.com/jcosta33/corpus-skills) — there is no separate `corpus-explorer`
+(AUDIT-corpus-agents F3). `corpus-evidence-checker` was retired and folded into `corpus-reviewer`'s
+proof-first mode (F2).
+
+_Of these, only `corpus-reviewer` holds `Bash` (so the `readonly-guard` applies to it); `corpus-challenger`
+has no Bash and needs no guard._
 
 ### Tier 2 — bounded-authoring workers
 
@@ -114,7 +121,7 @@ shell use kept read-only._
 - [`isolation.md`](./docs/isolation.md) — fresh-context isolation and how it is defeated (fork mode,
   parent permission modes).
 - [`provenance.md`](./docs/provenance.md) — the ADR-0088 delegation trace, aligned with HDP + OpenTelemetry.
-- [`runners.md`](./docs/runners.md) — Claude-Code-first, and how it ports: `corpus agents emit --codex` generates the Codex form from the single-source defs; the `AGENTS.md` discipline is the universal layer (enforcement stays Claude-Code-only).
+- [`runners.md`](./docs/runners.md) — Claude-Code-first, and how it ports: `corpus agents emit --codex` generates the Codex form from the single-source defs; the `AGENTS.md` discipline is the universal layer (enforcement stays Claude-Code-only). The committed `.codex/` is kept in sync by a no-diff guard ([`scripts/check-codex-sync.sh`](./scripts/check-codex-sync.sh) + [`.github/workflows/codex-sync.yml`](./.github/workflows/codex-sync.yml)) that re-runs the emitter and fails on drift or an orphaned TOML.
 - [`sources.md`](./docs/sources.md) — the bibliography.
 
 ## Security

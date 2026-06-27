@@ -1,12 +1,16 @@
 ---
 name: corpus-researcher
 description: >-
-  Investigate ONE question in depth against external primary sources and draft a research note —
-  claims grounded in checkable sources, observation kept distinct from claim, committing to NO
-  decision. ALWAYS apply when a decision needs an evidence base first (a library/API/algorithm/
-  standard comparison, a "should we…" that needs grounding). Never present opinion as a finding, cite a
-  blog without its primary source, let a claim outrun its evidence, or settle the question with a
-  recommendation. Skip writing the spec/decision itself, auditing present code, or implementing.
+  Investigate ONE question against EXTERNAL primary sources and draft a research note — claims grounded
+  in checkable sources, observation kept distinct from claim, committing to NO decision. ALWAYS apply,
+  use proactively, when a decision needs an evidence base first (a library/API/algorithm/standard
+  comparison, a "should we…" that needs grounding from outside the repo). Boundary: this surveys sources
+  for one open question — writing the requirements that consume the answer is corpus-spec-author,
+  attacking a specific proposal is corpus-challenger, recording the present state of EXISTING code with
+  severities (an internal read, not a sources survey) is corpus-auditor, and judging a finished diff/PR
+  is corpus-reviewer. Never present opinion as a finding, cite a blog without its primary source, let a
+  claim outrun its evidence, or settle the question with a recommendation. Skip writing the spec/decision
+  itself or implementing.
 tools: Read, Grep, Glob, Edit, Write, WebSearch, WebFetch
 ---
 

@@ -3,7 +3,7 @@
 > Optional, Claude-Code-first **worker definitions** for the [Corpus](https://github.com/jcosta33/corpus)
 > roles — independent review (with a proof-first evidence mode), pre-commitment challenge, and bounded
 > authoring (spec · research · audit · docs) — each a self-contained Claude Code subagent you copy into a
-> repo. Records and tripwires, never an orchestrator. (For code-location, use the built-in Explore agent.)
+> repo. Records and tripwires, never an orchestrator.
 
 Each agent runs a Corpus role in a **fresh, isolated context**, with its tools scoped to the work, and
 (with the hook) leaves a **delegation trace** for review — partially structured and version-dependent
@@ -86,11 +86,8 @@ guarantee** (see [The science](#the-science)).
 | [`corpus-reviewer`](./agents/corpus-reviewer.md)     | Reviewing a **finished** task/PR (or a 1:1 review-to-spec) — re-run Verify, draft the packet + staleness pins, **no verdict**. Its **proof-first mode** re-runs the Verify items and pastes verbatim output only — the role the retired `corpus-evidence-checker` filled |
 | [`corpus-challenger`](./agents/corpus-challenger.md) | Pressure-testing a **not-yet-built** proposal/spec/plan — assumptions, the steelmanned alternative, external evidence  |
 
-For **code-location** ("where is X / how does Y work / what calls Z") use the **built-in Explore agent**
-(same read-only Read/Grep/Glob tools and locate/trace mandate) plus the `codebase-exploration` skill in
-[corpus-skills](https://github.com/jcosta33/corpus-skills) — there is no separate `corpus-explorer`
-(AUDIT-corpus-agents F3). `corpus-evidence-checker` was retired and folded into `corpus-reviewer`'s
-proof-first mode (F2).
+For **code-location**, use the built-in **Explore** agent (see [Where to start](#where-to-start)).
+`corpus-evidence-checker` was retired and folded into `corpus-reviewer`'s proof-first mode.
 
 _Of these, only `corpus-reviewer` holds `Bash` (so the `readonly-guard` applies to it); `corpus-challenger`
 has no Bash and needs no guard._

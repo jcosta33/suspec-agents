@@ -65,7 +65,7 @@ weaker runners, the design is **one source, generated adapters**:
   in their own config.
 - **The `.codex` no-diff guard — shipped (AC-005).** The generated TOMLs are committed (so Codex users
   get them on clone, O3) and committed generated files drift — commit `ed424df` already had to
-  "regenerate stale .codex toml" (AUDIT-corpus-agents F7). [`scripts/check-codex-sync.sh`](../scripts/check-codex-sync.sh)
+  "regenerate stale .codex toml". [`scripts/check-codex-sync.sh`](../scripts/check-codex-sync.sh)
   re-runs the real emitter (`corpus agents emit --codex --from agents --force`), then `git diff
   --exit-code -- .codex/` and **fails when the committed `.codex/` drifted** — also catching an _orphan_
   TOML (a deleted agent whose generated file lingers, since emit only writes, never deletes). It is a

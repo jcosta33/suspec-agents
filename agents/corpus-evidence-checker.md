@@ -1,5 +1,6 @@
 ---
 name: corpus-evidence-checker
+status: retired
 description: >-
   Retired — folded into corpus-reviewer as its proof-first mode. When you only need a finished task's
   Verify checks re-run and the verbatim output pasted (not a full review packet), delegate to

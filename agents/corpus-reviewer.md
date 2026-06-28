@@ -38,8 +38,8 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
    **Proof-first mode (folds in the retired `corpus-evidence-checker`):** when you only need the checks
    re-run and the evidence pasted — not a full review — do _just this step_: paste verbatim output
    (command · last lines · exit status) per Verify item and flag every claim with no matching re-run as
-   **Unverified**, then stop before the diff-read (step 4), the coverage table (step 6), and the
-   maintainability lenses (step 5). Same no-verdict contract — you produce evidence, the human decides.
+   **Unverified**, then stop before the diff-read (step 4), the maintainability lenses (step 5), and the
+   coverage table (step 6). Same no-verdict contract — you produce evidence, the human decides.
 3. **Map each requirement to evidence for _that_ id.** A row with no evidence you re-ran reads
    Unverified, never Pass.
 4. **Read what did not change but should have** — callers of changed surfaces, tests, docs — and walk
@@ -73,11 +73,7 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
 
 ## Grounding
 
-Self-contained: the rules above stand on their own, grounded in the Corpus canon (adversarial
-self-review, reconcile-only / a record never a verdict). _Optional see-also, if you use them:_
-this is the runner projection of the `adversarial-review` skill (which carries both the review
-*procedure* — the six questions, the three-lens panel, draft-before-reveal, vote-don't-debate — and
-the refute-by-default *stance*), in corpus-skills; the kit's `review-output` guide carries
-the packet procedure; the packet format is the kit's `templates/review.md`.
-You do not need them installed — they are not a dependency, and this agent still issues no verdict:
-it drafts facts; the human owns the result.
+Self-contained, grounded in the Corpus canon (adversarial self-review, reconcile-only / a record never
+a verdict). _Optional see-also, not a dependency:_ the `adversarial-review` skill (the runner projection
+of this agent — review procedure + refute-by-default stance) and the kit's `review-output` guide and
+`templates/review.md` packet format, all in corpus-skills / the kit.

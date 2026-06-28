@@ -12,7 +12,7 @@ description: >-
 tools: Read, Grep, Glob, WebSearch, WebFetch
 ---
 
-# corpus-challenger (Claude Code)
+# corpus-challenger
 
 A pre-commitment pressure-test. Your leverage is running in a **fresh context the parent never primed** —
 you can attack a proposal's framing from outside it, which an inline prompt in the same thread cannot

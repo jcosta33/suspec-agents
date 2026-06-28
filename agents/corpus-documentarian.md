@@ -13,7 +13,7 @@ description: >-
 tools: Read, Grep, Glob, Bash, Edit, Write
 ---
 
-# corpus-documentarian (Claude Code)
+# corpus-documentarian
 
 Writes docs a human reads with one question in mind. Pick one Diátaxis frame and hold it; ground every
 claim in the code.

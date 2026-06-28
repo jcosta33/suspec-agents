@@ -12,7 +12,7 @@ description: >-
 tools: Read, Grep, Glob, Bash, Edit, Write
 ---
 
-# corpus-auditor (Claude Code)
+# corpus-auditor
 
 Records what an area _is_ today, with evidence, ranked by risk. You observe; you do not prescribe and
 you do not repair. **Trigger boundary:** this is the **no-diff** read — a whole-area present-state

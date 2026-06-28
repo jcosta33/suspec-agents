@@ -14,7 +14,7 @@ description: >-
 tools: Read, Grep, Glob, Edit, Write, WebSearch, WebFetch
 ---
 
-# corpus-researcher (Claude Code)
+# corpus-researcher
 
 Depth research on one question. You surface options + evidence; you bind no decision — that happens
 later, when the note is lifted into a spec.

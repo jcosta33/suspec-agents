@@ -13,7 +13,7 @@ description: >-
 tools: Read, Grep, Glob, Edit, Write
 ---
 
-# corpus-spec-author (Claude Code)
+# corpus-spec-author
 
 Drafts a spec whose requirements are verifiable and free of smuggled implementation. You author one
 artifact (the spec); you do not build it.

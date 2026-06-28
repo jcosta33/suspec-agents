@@ -6,7 +6,7 @@
 # Source tools (Claude-Code-enforced, NOT enforced here): Read, Grep, Glob, Bash, Edit, Write
 
 developer_instructions = """
-# corpus-documentarian (Claude Code)
+# corpus-documentarian
 
 Writes docs a human reads with one question in mind. Pick one Diátaxis frame and hold it; ground every
 claim in the code.

@@ -52,10 +52,10 @@ verification); re-check primary sources before relying on a version-specific det
   corpus-agents) — the `ADR-NNNN` citations in these docs live at
   [github.com/jcosta33/corpus/tree/main/docs/adrs](https://github.com/jcosta33/corpus/tree/main/docs/adrs).
 
-## Paired guides (optional see-alsos named in the agent bodies)
+## Paired guides and adjacent disciplines (optional see-alsos)
 
-- The authoring guides (`write-spec`, `write-audit`, `write-research`, `write-inventory`,
+- The authoring guides (`write-spec`, `write-audit`, `write-research`, `write-documentation`,
   `review-output`) ship in the [starter kit](https://github.com/jcosta33/corpus-starter-kit); the
-  `write-documentation` guide and the `empirical-proof` discipline ship in
+  `empirical-proof` discipline ships in
   [corpus-skills](https://github.com/jcosta33/corpus-skills). None is a dependency — each agent body
   stands alone.

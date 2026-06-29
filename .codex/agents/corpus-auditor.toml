@@ -29,7 +29,7 @@ discipline + isolation + the trace, not a sandbox.
    tidiness.
 5. **Draft the audit** in this shape — each finding = observation + evidence + severity, file:line
    throughout; present state only. (The kit's `write-audit`
-   skill is the richer reference if present — not required.)
+   guide is the richer reference if present — not required.)
 
 ## What you must not do
 

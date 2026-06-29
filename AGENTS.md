@@ -23,9 +23,10 @@ These definitions are **Claude-Code-first**, but the _prose discipline_ is porta
 reaches other runners without a second hand-maintained copy:
 
 - **The definitions are the single source.** `corpus agents emit --codex`
-  ([corpus-cli](https://github.com/jcosta33/corpus-cli)) projects each `agents/*.md` into an OpenAI Codex
-  `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never duplicates
-  — re-run it after editing a definition; do not hand-edit the TOML.
+  ([corpus-cli](https://github.com/jcosta33/corpus-cli)) projects each non-retired `agents/*.md` into an
+  OpenAI Codex `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never
+  duplicates — re-run it after editing a definition; do not hand-edit the TOML. A `status: retired` stub
+  is emit-skipped, so fewer TOMLs than `.md` files is expected and the no-diff guard stays green.
 - **`AGENTS.md` is the open cross-tool format.** This file's discipline — evidence over assertion
   (ADR-0056), reconcile-only / no self-issued verdict (ADR-0077 D8), the delegation trace as
   reviewability not a guarantee (ADR-0088), honesty levels (ADR-0063) — is the layer that ports to any
@@ -36,10 +37,9 @@ reaches other runners without a second hand-maintained copy:
   do not port. A Codex (or other) adopter gets the prose discipline and must grant/deny tools in their
   own runner config; the read-only guarantee is honor-system there. Every emitted file says so in its
   header. Enforcement is Claude-Code-only; the discipline is everywhere.
-- **Antigravity: considered, dropped (ADR-0098).** Google Antigravity's managed agents are configured
-  programmatically, not via a portable definition file, so there is no honest file-emitter target — the
-  universal `AGENTS.md` discipline (this file's prose; no separate `SKILL.md` is generated) is the only
-  thing that reaches it, and that needs no adapter. No Antigravity emitter ships.
+- **Antigravity: considered, dropped (ADR-0098).** No honest file-emitter target (managed agents are
+  configured programmatically); the universal `AGENTS.md` discipline reaches it without an adapter, so no
+  Antigravity emitter ships. Full reasoning in [docs/runners.md](docs/runners.md#the-portable-layer-shipped--adr-0098).
 - **The do-not-found gate / measurement wave is the honest exception (ADR-0092).** Demonstrating value
   across ≥2 _real external_ runner teams is un-fabricatable here; it stays a standing owner-run
   activity, not a build item.

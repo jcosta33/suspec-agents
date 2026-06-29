@@ -30,7 +30,7 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
 1. **Read the task packet and its spec first** — the scope, the `## Verify` items, the do-not-change
    areas — then read the diff yourself (`git diff` / `git show`). For a **task-less 1:1 review**
    (review-to-spec) there is no task packet: the review names its spec directly via the
-   `spec:` frontmatter key, and coverage keys on the spec's **full AC set** rather than a task's scope.
+   `spec:` frontmatter key, and coverage keys on the spec's **full requirement set** rather than a task's scope.
 2. **Re-run every Verify item yourself and paste the real output** — do not trust the worker's pasted
    results. Resolve commands from the workspace `AGENTS.md` (`cmdTest`, `cmdLint`, …); if one is
    undefined, ask — never guess. **Confirm each run actually collected the named tests** — a filter

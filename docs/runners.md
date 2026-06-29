@@ -3,7 +3,7 @@
 corpus-agents authors **Claude Code definitions** as the single source, and **ports them** to a second
 runner by generation: `corpus agents emit --codex` (corpus-cli) emits `.codex/agents/*.toml` from the
 `agents/*.md` files, and the shared discipline ports through the open `AGENTS.md` format (ADR-0098).
-Here is the honest reasoning — what travels, what does not, and why Antigravity was dropped.
+Here is the honest reasoning — what travels and what does not.
 
 ## Why Claude Code first
 
@@ -54,8 +54,8 @@ _definition_ does not.
 
 The portable layer is built, narrowed to what is honest. A Claude-Code-shaped definition's _role_ is
 already portable into Cursor, VS Code Copilot, and Devin via their cross-reads — but **tool-scoping
-enforcement and the provenance hook do not travel** (the gate-1 finding: the prose discipline ports,
-structural enforcement does not). Rather than a single per-agent file that lies about enforcement on
+enforcement and the provenance hook do not travel**: the prose discipline ports, structural enforcement
+does not. Rather than a single per-agent file that lies about enforcement on
 weaker runners, the design is **one source, generated adapters**:
 
 - **Codex emitter — shipped.** `corpus agents emit --codex` (corpus-cli) generates `.codex/agents/*.toml`
@@ -64,7 +64,7 @@ weaker runners, the design is **one source, generated adapters**:
   `tools` allowlist and the hooks are Claude-Code-only and do not travel; a Codex adopter scopes tools
   in their own config.
 - **The `.codex` no-diff guard — shipped (AC-005).** The generated TOMLs are committed (so Codex users
-  get them on clone, O3) and committed generated files drift — commit `ed424df` already had to
+  get them on clone) and committed generated files drift — commit `ed424df` already had to
   "regenerate stale .codex toml". [`scripts/check-codex-sync.sh`](../scripts/check-codex-sync.sh)
   re-runs the real emitter (`corpus agents emit --codex --from agents --force`), then `git diff
   --exit-code -- .codex/` and **fails when the committed `.codex/` drifted** — also catching an _orphan_
@@ -79,9 +79,8 @@ weaker runners, the design is **one source, generated adapters**:
   via a portable definition file, so there is no honest file-emitter target. The universal `AGENTS.md`
   discipline reaches it without an adapter; no Antigravity emitter ships.
 
-What stays the honest exception: **value measured across ≥2 real external runner teams** (ADR-0092's
-gate) is un-fabricatable, so it remains a standing owner-run activity — the emitter + universal layer
-ship; the value proof does not get faked.
+What ships is the emitter + the universal layer; the **value proof** — measured across ≥2 real
+external runner teams — does not, and cannot be faked (see [The gate this bears on](#the-gate-this-bears-on)).
 
 ## Per-agent model — an optional adopter knob (not shipped)
 

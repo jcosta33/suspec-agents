@@ -1,4 +1,4 @@
 .DS_Store
 
 # Delegation trace sink written by hooks/delegations.sh (runtime output, not source).
-.corpus/work/
+.suspec/work/

@@ -6,10 +6,10 @@ executor or a guarantee** — they raise reviewability and the bar, nothing more
 
 ## `delegations.sh` — delegation-provenance (ADR-0088 producer 2)
 
-`corpus run --agent` records a provenance block for the workers **it** launches (producer 1). But
+`suspec run --agent` records a provenance block for the workers **it** launches (producer 1). But
 **in-session subagents** — the ones the main agent spawns through Claude Code's own Agent tool —
 never touch the CLI. This hook is producer 2: one NDJSON trace line per subagent event in
-`.corpus/work/delegations.ndjson`, so delegation is reviewable too. A record, never a verdict
+`.suspec/work/delegations.ndjson`, so delegation is reviewable too. A record, never a verdict
 (ADR-0077 D8); always exits 0, so provenance never blocks the agent.
 
 ```json
@@ -62,8 +62,8 @@ subcommand, so `git -C <dir> commit` and `git --no-pager push` are caught too; a
 `--dry-run`/`--help`, or `git clean -n`/`add -n`, is allowed), `sed -i`,
 `rm`/`rmdir`/`mv`/`chmod`/`chown`, and `*publish` — anchored to each segment's leading command word
 (after peeling `sudo`/`xargs` wrappers, a leading subshell `(`/`{`, and `VAR=val` prefixes). It is a
-global `Bash` matcher, so it fires for **any** agent granted Bash: the Tier-1 `corpus-reviewer` agent
-and — where you want their shell use kept read-only — the Tier-2 `corpus-auditor`/`corpus-documentarian`.
+global `Bash` matcher, so it fires for **any** agent granted Bash: the Tier-1 `suspec-reviewer` agent
+and — where you want their shell use kept read-only — the Tier-2 `suspec-auditor`/`suspec-documentarian`.
 
 ```json
 {

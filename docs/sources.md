@@ -1,14 +1,14 @@
 # Sources
 
-The evidence behind corpus-agents' design and its honest-scope claims. Verified in the deep-research
-refresh of 2026-06-21 (corpus-works `specs/corpus-agents/research-shipping.md`, 3-vote adversarial
+The evidence behind suspec-agents' design and its honest-scope claims. Verified in the deep-research
+refresh of 2026-06-21 (suspec-works `specs/suspec-agents/research-shipping.md`, 3-vote adversarial
 verification); re-check primary sources before relying on a version-specific detail.
 
 > **Citations live here, not in the agent products.** An `agents/*.md` definition is a product — the
 > instructions Claude Code runs. It states its rule plainly ("the human owns the result"); the canon
 > reference that justifies the rule (an ADR, an audit finding, a URL) belongs in this file, the rest of
-> `docs/`, or the corpus canon — never in the def body, which would also bloat the generated `.codex/`
-> mirror. (Mirror of corpus-skills `docs/self-containment.md` Rule 3. Gate: `grep -rniE
+> `docs/`, or the suspec canon — never in the def body, which would also bloat the generated `.codex/`
+> mirror. (Mirror of suspec-skills `docs/self-containment.md` Rule 3. Gate: `grep -rniE
 > 'ADR-[0-9]|AUDIT-|https?://' agents/` returns nothing.)
 
 ## Claude Code subagents (the authoring + enforcement surface)
@@ -45,17 +45,17 @@ verification); re-check primary sources before relying on a version-specific det
   https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/ ·
   https://github.com/open-telemetry/semantic-conventions-genai/issues/35
 
-## Corpus canon (the contract)
+## Suspec canon (the contract)
 
 - ADR-0088 (delegation-provenance contract), ADR-0077 (reconcile-only / a record never a verdict),
   ADR-0056 (adversarial self-review), ADR-0063 (honesty framework / levels), ADR-0092 (founding
-  corpus-agents) — the `ADR-NNNN` citations in these docs live at
-  [github.com/jcosta33/corpus/tree/main/docs/adrs](https://github.com/jcosta33/corpus/tree/main/docs/adrs).
+  suspec-agents) — the `ADR-NNNN` citations in these docs live at
+  [github.com/jcosta33/suspec/tree/main/docs/adrs](https://github.com/jcosta33/suspec/tree/main/docs/adrs).
 
 ## Paired guides and adjacent disciplines (optional see-alsos)
 
 - The authoring guides (`write-spec`, `write-audit`, `write-research`, `write-documentation`,
-  `review-output`) ship in the [starter kit](https://github.com/jcosta33/corpus-starter-kit); the
+  `review-output`) ship in the [starter kit](https://github.com/jcosta33/suspec-starter-kit); the
   `empirical-proof` discipline ships in
-  [corpus-skills](https://github.com/jcosta33/corpus-skills). None is a dependency — each agent body
+  [suspec-skills](https://github.com/jcosta33/suspec-skills). None is a dependency — each agent body
   stands alone.

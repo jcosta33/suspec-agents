@@ -1,10 +1,10 @@
 #!/bin/sh
 # Delegation-provenance hook (ADR-0088 producer 2) — Claude Code.
 #
-# `corpus run --agent` records a provenance block for the workers IT launches (producer 1). But
+# `suspec run --agent` records a provenance block for the workers IT launches (producer 1). But
 # in-session subagents — the ones the main agent spawns through Claude Code's own Agent tool — never
 # touch the CLI. This hook is producer 2: it appends one NDJSON trace line per subagent event to
-# `.corpus/work/delegations.ndjson`, so that delegation is reviewable too. It is a RECORD, never a
+# `.suspec/work/delegations.ndjson`, so that delegation is reviewable too. It is a RECORD, never a
 # verdict (ADR-0077 Decision 8), and it always exits 0 — provenance must never block the agent.
 #
 # Wire it in `.claude/settings.json` (see README.md). Pass the event name as argv[1].
@@ -12,7 +12,7 @@ set -eu
 
 # Anchor to the repo root so traces always collect in one place, regardless of the hook's cwd.
 root="$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
-dir="$root/.corpus/work"
+dir="$root/.suspec/work"
 mkdir -p "$dir"
 out="$dir/delegations.ndjson"
 

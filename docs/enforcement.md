@@ -1,8 +1,8 @@
 # Enforcement: what is real, what is honor-system
 
-The honest scope of corpus-agents' guarantees. Per the Corpus honesty framework (ADR-0063), a rule is
+The honest scope of suspec-agents' guarantees. Per the Suspec honesty framework (ADR-0063), a rule is
 **toolable/partial** when a tool narrows the surface, and **enforced** only when a tool actually
-guarantees it. **Nothing in corpus-agents is "enforced."**
+guarantees it. **Nothing in suspec-agents is "enforced."**
 
 ## What is structurally real (toolable/partial)
 
@@ -45,7 +45,7 @@ These are the limits, stated plainly — design around them, don't assume them a
 ## The honest conclusion
 
 A `tools` allowlist + a tripwire hook + a delegation trace buy **reviewability and attribution, and a
-narrower default surface** — they do **not** guarantee behavior. Use corpus-agents to make delegation
+narrower default surface** — they do **not** guarantee behavior. Use suspec-agents to make delegation
 _visible and disciplined_, not to _sandbox_ an untrusted agent. For a real boundary, run the agent in
 an OS/container sandbox; these definitions are not that.
 

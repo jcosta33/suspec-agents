@@ -1,6 +1,6 @@
 # Provenance: the delegation trace
 
-When an agent delegates to a subagent, corpus-agents leaves a reviewable record of the handoff. The
+When an agent delegates to a subagent, suspec-agents leaves a reviewable record of the handoff. The
 contract is canon (ADR-0088); this is how the producers here emit it and how it relates to the wider
 standards.
 
@@ -14,11 +14,11 @@ human-attention fact, not a failure. No checker mints it (convention-first, ADR-
 
 ## The two producers
 
-- **`corpus run --agent`** (in [corpus-cli](https://github.com/jcosta33/corpus-cli)) writes a `provenance`
+- **`suspec run --agent`** (in [suspec-cli](https://github.com/jcosta33/suspec-cli)) writes a `provenance`
   block + `changed_files` in its run-record for the workers it launches. (Producer 1; optional — only
-  if you use corpus-cli.)
+  if you use suspec-cli.)
 - **`hooks/delegations.sh`** (here) appends one NDJSON line per `SubagentStart`/`SubagentStop` to
-  `.corpus/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
+  `.suspec/work/delegations.ndjson` — because in-session subagents bypass the CLI. (Producer 2; the
   producer a copy-install actually runs.) **What it actually ships, on the only verified Claude Code
   version (v2.1.173), is a timestamped worker+output log** — not the full ADR-0088 trace: only `worker`
   and `evidence` populate; `reason`/`inputs`/`tools`/`could_edit` ship `null` (the raw event is kept, so
@@ -47,7 +47,7 @@ Reviewability and attribution — as shipped (producer 2 today), _who_ ran and _
 timestamp; the contract's _with which tools / edit rights / why_ fields are defined but ship `null` on
 the verified version (recoverable from the raw event). **Not** a behavioral guarantee, and **not**
 tamper-evident (plaintext, unsigned — that's the HDP upgrade path). The trace can contain prompt and model-output content in plaintext; it is
-gitignored (`.corpus/work/`), but treat it as sensitive at rest, like a transcript. See
+gitignored (`.suspec/work/`), but treat it as sensitive at rest, like a transcript. See
 `enforcement.md` for the boundary.
 
 Sources: see [sources.md](./sources.md).

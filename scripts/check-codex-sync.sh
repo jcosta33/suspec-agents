@@ -1,7 +1,7 @@
 #!/bin/sh
 # check-codex-sync.sh — the .codex no-diff guard (SPEC-agents-mcp-rearchitecture AC-005 / AUDIT F7).
 #
-# `.codex/agents/*.toml` is GENERATED from `agents/*.md` by `corpus agents emit --codex` and committed
+# `.codex/agents/*.toml` is GENERATED from `agents/*.md` by `suspec agents emit --codex` and committed
 # (so Codex users get it on clone — O3). Committed generated files drift: commit ed424df already had to
 # "regenerate stale .codex toml". This guard fails the build when the committed `.codex/` no longer
 # matches what the emitter produces from the current definitions — so a stale TOML is caught at CI/
@@ -22,19 +22,21 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$REPO_ROOT"
 
-# The emitter: the installed `corpus` CLI in CI, else the local corpus-cli checkout for dev. Override
-# with CORPUS_EMIT (e.g. CORPUS_EMIT="corpus") to point at the installed binary.
-if [ -n "${CORPUS_EMIT:-}" ]; then
-    # shellcheck disable=SC2086 # intentional word-split so CORPUS_EMIT can carry args
-    set -- $CORPUS_EMIT
-elif command -v corpus >/dev/null 2>&1; then
-    set -- corpus
-elif [ -f ../corpus-cli/bin/corpus.js ]; then
-    set -- node ../corpus-cli/bin/corpus.js
+# The emitter: the installed `suspec` CLI in CI, else the local suspec-cli checkout for dev. Override
+# with SUSPEC_EMIT (e.g. SUSPEC_EMIT="suspec") to point at the installed binary.
+if [ -n "${SUSPEC_EMIT:-}" ]; then
+    # shellcheck disable=SC2086 # intentional word-split so SUSPEC_EMIT can carry args
+    set -- $SUSPEC_EMIT
+elif command -v suspec >/dev/null 2>&1; then
+    set -- suspec
+elif [ -f ../suspec-cli/bin/suspec.js ]; then
+    set -- node ../suspec-cli/bin/suspec.js
+elif [ -f ../corpus-cli/bin/suspec.js ]; then
+    set -- node ../corpus-cli/bin/suspec.js
 else
-    echo "check-codex-sync: cannot find the corpus emitter." >&2
-    echo "  Install the corpus CLI (so \`corpus\` is on PATH), or check out corpus-cli as a sibling," >&2
-    echo "  or set CORPUS_EMIT to the command that runs it (e.g. CORPUS_EMIT='corpus')." >&2
+    echo "check-codex-sync: cannot find the suspec emitter." >&2
+    echo "  Install the suspec CLI (so \`suspec\` is on PATH), or check out suspec-cli as a sibling," >&2
+    echo "  or set SUSPEC_EMIT to the command that runs it (e.g. SUSPEC_EMIT='suspec')." >&2
     exit 2
 fi
 
@@ -64,9 +66,9 @@ fi
 if ! git diff --exit-code -- .codex/; then
     echo "" >&2
     echo "check-codex-sync: FAIL — .codex/ drifted from the agent definitions." >&2
-    echo "  The committed .codex/agents/*.toml no longer matches \`corpus agents emit --codex\`." >&2
+    echo "  The committed .codex/agents/*.toml no longer matches \`suspec agents emit --codex\`." >&2
     echo "  Regenerate and commit it:" >&2
-    echo "    corpus agents emit --codex --from agents --force   # (or: node ../corpus-cli/bin/corpus.js …)" >&2
+    echo "    suspec agents emit --codex --from agents --force   # (or: node ../suspec-cli/bin/suspec.js …)" >&2
     echo "    git add .codex/ && git commit" >&2
     exit 1
 fi

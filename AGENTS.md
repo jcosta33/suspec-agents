@@ -1,19 +1,19 @@
-# AGENTS.md — corpus-agents
+# AGENTS.md — suspec-agents
 
-This repo is the optional **agent-definition** catalog for the Corpus framework: self-contained,
-Claude-Code-first worker definitions for Corpus roles, one file per agent under `agents/`, the
+This repo is the optional **agent-definition** catalog for the Suspec framework: self-contained,
+Claude-Code-first worker definitions for Suspec roles, one file per agent under `agents/`, the
 delegation-provenance + read-only-guard hooks under `hooks/`, and the evidence behind their design
-under `docs/`. It is a derived-content repo — it carries no Corpus workspace install; the work of
-changing it is planned and reviewed in the family workspace (the sibling `corpus-works` repo). The
-founding decision is [ADR-0092](https://github.com/jcosta33/corpus/blob/main/docs/adrs/0092-corpus-agents-member.md)
+under `docs/`. It is a derived-content repo — it carries no Suspec workspace install; the work of
+changing it is planned and reviewed in the family workspace (the sibling `suspec-works` repo). The
+founding decision is [ADR-0092](https://github.com/jcosta33/suspec/blob/main/docs/adrs/0092-suspec-agents-member.md)
 (the `ADR-NNNN` citations here are decision records in the
-[corpus repo](https://github.com/jcosta33/corpus/tree/main/docs/adrs)).
+[suspec repo](https://github.com/jcosta33/suspec/tree/main/docs/adrs)).
 
 ## What this is NOT
 
 Not an orchestrator, not a runtime, not a multi-agent loop. A catalog of definitions + two hooks are
 **records and tripwires, never an executor** (ADR-0077 / ADR-0088). The only CLI launcher is
-`corpus run --agent` (optional, in [corpus-cli](https://github.com/jcosta33/corpus-cli)); the standalone
+`suspec run --agent` (optional, in [suspec-cli](https://github.com/jcosta33/suspec-cli)); the standalone
 path these definitions support — in-session subagents spawned by your own runner's Agent tool — needs
 no CLI. The absence of orchestration stays observable.
 
@@ -22,8 +22,8 @@ no CLI. The absence of orchestration stays observable.
 These definitions are **Claude-Code-first**, but the _prose discipline_ is portable, so the catalog
 reaches other runners without a second hand-maintained copy:
 
-- **The definitions are the single source.** `corpus agents emit --codex`
-  ([corpus-cli](https://github.com/jcosta33/corpus-cli)) projects each non-retired `agents/*.md` into an
+- **The definitions are the single source.** `suspec agents emit --codex`
+  ([suspec-cli](https://github.com/jcosta33/suspec-cli)) projects each non-retired `agents/*.md` into an
   OpenAI Codex `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never
   duplicates — re-run it after editing a definition; do not hand-edit the TOML. A `status: retired` stub
   is emit-skipped, so fewer TOMLs than `.md` files is expected and the no-diff guard stays green.
@@ -57,7 +57,7 @@ reaches other runners without a second hand-maintained copy:
 - **Self-contained + canon-grounded:** the body carries its own discipline, grounded in the durable
   canon ADRs (ADR-0056 self-review, ADR-0077 reconcile-only/no-verdict, ADR-0088 trace). It must read
   correctly with nothing else installed. A persona/guide is an OPTIONAL one-line "pairs with … if you
-  use it" see-also — never a dependency (personas live in `corpus-skills`; core/authoring guides in the
+  use it" see-also — never a dependency (personas live in `suspec-skills`; core/authoring guides in the
   starter kit). Nothing here depends on a persona.
 - **Honesty (ADR-0063):** never label anything "enforced". Read-only scoping is **toolable/partial**
   (defeasible — see `docs/enforcement.md`); a trace buys reviewability/attribution, not a guarantee.
@@ -69,4 +69,4 @@ reaches other runners without a second hand-maintained copy:
 
 | Slot | Command | Resolves                                                                                                    |
 | ---- | ------- | ----------------------------------------------------------------------------------------------------------- |
-| —    | (none)  | markdown + shell-hook repo; content is checked by review (the corpus-works workspace cuts and reviews changes) |
+| —    | (none)  | markdown + shell-hook repo; content is checked by review (the suspec-works workspace cuts and reviews changes) |

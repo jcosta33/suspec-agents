@@ -1,7 +1,7 @@
 # Runners: Claude-Code-first, and how it ports (Codex + the universal layer)
 
-corpus-agents authors **Claude Code definitions** as the single source, and **ports them** to a second
-runner by generation: `corpus agents emit --codex` (corpus-cli) emits `.codex/agents/*.toml` from the
+suspec-agents authors **Claude Code definitions** as the single source, and **ports them** to a second
+runner by generation: `suspec agents emit --codex` (suspec-cli) emits `.codex/agents/*.toml` from the
 `agents/*.md` files, and the shared discipline ports through the open `AGENTS.md` format (ADR-0098).
 Here is the honest reasoning — what travels and what does not.
 
@@ -11,14 +11,14 @@ Claude Code subagents are a mature, file-based authoring surface: Markdown + YAM
 five discovery scopes, 16 documented frontmatter fields (only `name`+`description` required), real
 fresh-context isolation, tool-scoping (`tools`/`disallowedTools` allowlists), `PreToolUse` blocking
 hooks, and `SubagentStart`/`SubagentStop` hooks for the delegation trace. That is the full surface the
-corpus-agents model needs, in one place. [code.claude.com/docs/en/sub-agents]
+suspec-agents model needs, in one place. [code.claude.com/docs/en/sub-agents]
 
 ## The runner landscape (2026)
 
 File-based agent definitions are now plural. A 2026 breadth survey (each fact checked against the
 harness's own docs/source) groups them three ways:
 
-- **The markdown + YAML-frontmatter camp** — the prevailing shape, the one corpus-agents already uses:
+- **The markdown + YAML-frontmatter camp** — the prevailing shape, the one suspec-agents already uses:
   a `name`/`description` header, the body as the system prompt. **Claude Code** (`.claude/agents/`),
   **Gemini CLI** (`.gemini/agents/*.md`, a `tools` array, inherit-all default
   [github.com/google-gemini/gemini-cli — docs/core/subagents.md]), **GitHub Copilot**
@@ -46,7 +46,7 @@ projects and lists Codex, Gemini CLI, Cursor, Copilot, Aider, Windsurf, Amp, and
 format, not a ratified standard [agents.md]); Antigravity's managed runtime auto-loads
 `.agents/AGENTS.md`. And a **`name`+`description` `SKILL.md`** is shared by Claude Code _and_
 Antigravity (`.agents/skills/<name>/SKILL.md`, identical shape
-[ai.google.dev/gemini-api/docs/custom-agents]). So the discipline a corpus worker carries reaches the
+[ai.google.dev/gemini-api/docs/custom-agents]). So the discipline a suspec worker carries reaches the
 guidance-only harnesses and Antigravity through `AGENTS.md` + `SKILL.md`, even though the per-agent
 _definition_ does not.
 
@@ -58,7 +58,7 @@ enforcement and the provenance hook do not travel**: the prose discipline ports,
 does not. Rather than a single per-agent file that lies about enforcement on
 weaker runners, the design is **one source, generated adapters**:
 
-- **Codex emitter — shipped.** `corpus agents emit --codex` (corpus-cli) generates `.codex/agents/*.toml`
+- **Codex emitter — shipped.** `suspec agents emit --codex` (suspec-cli) generates `.codex/agents/*.toml`
   from the `agents/*.md` definitions (`developer_instructions` = the body). It is reuse, not a second
   hand-maintained copy — re-run after editing a definition. Every emitted file's header states that the
   `tools` allowlist and the hooks are Claude-Code-only and do not travel; a Codex adopter scopes tools
@@ -66,7 +66,7 @@ weaker runners, the design is **one source, generated adapters**:
 - **The `.codex` no-diff guard — shipped (AC-005).** The generated TOMLs are committed (so Codex users
   get them on clone) and committed generated files drift — commit `ed424df` already had to
   "regenerate stale .codex toml". [`scripts/check-codex-sync.sh`](../scripts/check-codex-sync.sh)
-  re-runs the real emitter (`corpus agents emit --codex --from agents --force`), then `git diff
+  re-runs the real emitter (`suspec agents emit --codex --from agents --force`), then `git diff
   --exit-code -- .codex/` and **fails when the committed `.codex/` drifted** — also catching an _orphan_
   TOML (a deleted agent whose generated file lingers, since emit only writes, never deletes). It is a
   check, not an executor (ADR-0077): it edits nothing. [`.github/workflows/codex-sync.yml`](../.github/workflows/codex-sync.yml)
@@ -88,13 +88,13 @@ These definitions pin **no** `model:` — they inherit the session model, so a d
 a new model ships (ADR-0092). But Claude Code subagents _support_ a `model:` frontmatter field, and the
 cost/quality spread is real (a Haiku scout vs a capable judge). Since you copy and adapt these files,
 add it yourself where cost-tiering pays off — e.g. `model: haiku` on a cheap read-only scout (the
-built-in Explore agent, or `corpus-reviewer` in its proof-first mode), a stronger model on
-`corpus-reviewer` for a full review / `corpus-challenger` (judgement). We ship no defaults on purpose;
+built-in Explore agent, or `suspec-reviewer` in its proof-first mode), a stronger model on
+`suspec-reviewer` for a full review / `suspec-challenger` (judgement). We ship no defaults on purpose;
 the knob is yours.
 
 ## The gate this bears on
 
-corpus-agents was held on "≥2 runners _demonstrating value_." The runners _exist_ with compatible
+suspec-agents was held on "≥2 runners _demonstrating value_." The runners _exist_ with compatible
 formats, but v1 demonstrates value on **Claude Code only** — so that gate is **not** met by founding;
 the founding is a conscious override conditioned on the measurement wave (ADR-0092). Portability is the
 path to actually clearing it later.

@@ -9,8 +9,8 @@ Each agent runs a Suspec role in a **fresh, isolated context**, with its tools s
 (with the hook) leaves a **delegation trace** for review — partially structured and version-dependent
 (see [hooks/README.md](./hooks/README.md)). The discipline is baked into each definition; you copy the
 one you need. Nothing here runs a model loop or owns the **verdict** — the accept/reject decision on a
-task, which a human still makes (ADR-0077; the review vocabulary is defined in the
-[Suspec glossary](https://github.com/jcosta33/suspec/blob/main/docs/reference/glossary.md)).
+task, which a human still makes; the review vocabulary is defined in the
+[Suspec glossary](https://github.com/jcosta33/suspec/blob/main/docs/reference/glossary.md).
 
 ## Install
 
@@ -69,7 +69,7 @@ ships the loop. Add an agent when delegating that role to an isolated, scoped su
 You can get far with your runner's built-in agents and a `CLAUDE.md`. These add three things those do
 not: a **fresh, isolated context per role** — the subagent is never primed by your main thread's
 framing ([`docs/isolation.md`](./docs/isolation.md)); a hard refusal to **self-issue a verdict** — the
-reviewer/checker draft and a human decides (ADR-0077); and, with the hook, a **reviewable delegation
+reviewer/checker drafts and a human decides; and, with the hook, a **reviewable delegation
 trace** the built-ins don't emit. When none of those matter, the built-ins are the lighter choice —
 reach for these when the isolation, the no-self-verdict rule, or the trace earns its keep.
 
@@ -117,7 +117,7 @@ shell use kept read-only._
   (toolable/partial) vs. what is honor-system, with the bypass-bug cluster cited.
 - [`isolation.md`](./docs/isolation.md) — fresh-context isolation and how it is defeated (fork mode,
   parent permission modes).
-- [`provenance.md`](./docs/provenance.md) — the ADR-0088 delegation trace, aligned with HDP + OpenTelemetry.
+- [`provenance.md`](./docs/provenance.md) — the delegation trace, aligned with HDP + OpenTelemetry.
 - [`runners.md`](./docs/runners.md) — Claude-Code-first, and how it ports: `suspec agents emit --codex` generates the Codex form from the single-source defs; the `AGENTS.md` discipline is the universal layer (enforcement stays Claude-Code-only). The committed `.codex/` is kept in sync by a no-diff guard ([`scripts/check-codex-sync.sh`](./scripts/check-codex-sync.sh) + [`.github/workflows/codex-sync.yml`](./.github/workflows/codex-sync.yml)) that re-runs the emitter and fails on drift or an orphaned TOML.
 - [`sources.md`](./docs/sources.md) — the bibliography.
 
@@ -139,19 +139,16 @@ runner-specific (Claude Code) projections of the Suspec roles; the framework and
 [jcosta33/suspec-starter-kit](https://github.com/jcosta33/suspec-starter-kit), the agent-neutral
 disciplines at [jcosta33/suspec-skills](https://github.com/jcosta33/suspec-skills). This catalog is
 curated: agent content is edited here; changes are planned and reviewed in the Suspec project's
-workspace. Founding decision: [ADR-0092](https://github.com/jcosta33/suspec/blob/main/docs/adrs/0092-suspec-agents-member.md).
-The `ADR-NNNN` citations throughout these docs are decision records in the
-[suspec repo's `docs/adrs/`](https://github.com/jcosta33/suspec/tree/main/docs/adrs) — the gloss beside
-each here is self-sufficient.
+workspace.
 
-The worker definitions track the framework's **mean-and-lean** generation (ADR-0101/0103/0104/0107/0108):
+The worker definitions track the framework's current **mean-and-lean** generation:
 the `suspec-spec-author` drafts a **living spec** (the `draft → ready → active → superseded` lifecycle,
 open decisions with options + a recommendation, per-requirement supersession, a `snapshot:` SHA, and the
 append-only `## Execution` run-record); the `suspec-reviewer` handles the **task-less 1:1 review-to-spec**
 (coverage on the spec's full ACs via a `spec:` key) and records the **fast-track staleness pins**
 (`reviewed_sha:` + `evidence_hash:`). The matching CLI surface lives in
 [suspec-cli](https://github.com/jcosta33/suspec-cli): `suspec stamp` writes those pins, `suspec check
---staleness` flags spec drift, and `suspec clean` prunes the now-ephemeral tasks/reviews (ADR-0104).
+--staleness` flags spec drift, and `suspec clean` prunes the now-ephemeral tasks/reviews.
 
 ## License
 

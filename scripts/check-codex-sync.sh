@@ -22,17 +22,33 @@ SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
 cd "$REPO_ROOT"
 
+find_sibling_suspec_cli() {
+    for candidate in "$REPO_ROOT"/../*; do
+        [ -d "$candidate" ] || continue
+        [ -f "$candidate/bin/suspec.js" ] || continue
+        [ -f "$candidate/package.json" ] || continue
+        if grep -Eq '"name"[[:space:]]*:[[:space:]]*"suspec-cli"' "$candidate/package.json"; then
+            printf '%s\n' "$candidate/bin/suspec.js"
+            return
+        fi
+    done
+}
+
 # The emitter: the installed `suspec` CLI in CI, else the local suspec-cli checkout for dev. Override
 # with SUSPEC_EMIT (e.g. SUSPEC_EMIT="suspec") to point at the installed binary.
 if [ -n "${SUSPEC_EMIT:-}" ]; then
     # shellcheck disable=SC2086 # intentional word-split so SUSPEC_EMIT can carry args
     set -- $SUSPEC_EMIT
+    emitter_label="$SUSPEC_EMIT"
 elif command -v suspec >/dev/null 2>&1; then
     set -- suspec
+    emitter_label="suspec"
 elif [ -f ../suspec-cli/bin/suspec.js ]; then
     set -- node ../suspec-cli/bin/suspec.js
-elif [ -f ../corpus-cli/bin/suspec.js ]; then
-    set -- node ../corpus-cli/bin/suspec.js
+    emitter_label="node ../suspec-cli/bin/suspec.js"
+elif local_cli=$(find_sibling_suspec_cli) && [ -n "$local_cli" ]; then
+    set -- node "$local_cli"
+    emitter_label="local suspec-cli package"
 else
     echo "check-codex-sync: cannot find the suspec emitter." >&2
     echo "  Install the suspec CLI (so \`suspec\` is on PATH), or check out suspec-cli as a sibling," >&2
@@ -40,7 +56,7 @@ else
     exit 2
 fi
 
-echo "check-codex-sync: emitting .codex from agents/ via: $* agents emit --codex --from agents --force"
+echo "check-codex-sync: emitting .codex from agents/ via: $emitter_label agents emit --codex --from agents --force"
 "$@" agents emit --codex --from agents --force
 
 # Orphan check: every committed/emitted .codex/agents/<name>.toml must have an agents/<name>.md source.

@@ -44,4 +44,4 @@ discipline + isolation + the trace, not a sandbox.
 
 Self-contained, grounded in the canon (a present-state record with evidence; the human decides what to
 do about it). _Optional see-also, if you use it:_ the kit's `write-audit` guide, which carries the
-auditor discipline (the standalone persona folded into the guide). Not a dependency."""
+auditor discipline. Not a dependency."""

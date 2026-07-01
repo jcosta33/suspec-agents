@@ -56,11 +56,11 @@ ships the loop. Add an agent when delegating that role to an isolated, scoped su
 
 1. **`suspec-reviewer`** — the first one most want: an independent, read-only reviewer for a finished
    task or PR that re-runs the Verify checks and drafts a packet without issuing the verdict. When you
-   only need the checks re-run and the evidence pasted (not a full packet), run it in its
-   **proof-first mode** — the role the retired `suspec-evidence-checker` used to fill.
+   only need the checks re-run and the evidence pasted (not a full packet), run it in
+   **proof-first mode**.
 2. **For code-location** — use the built-in **Explore** agent (read-only Read/Grep/Glob, same
-   locate/trace mandate); the depth discipline lives in the `codebase-exploration` skill in
-   [suspec-skills](https://github.com/jcosta33/suspec-skills). There is no separate `suspec-explorer`.
+   locate/trace mandate) with the `codebase-exploration` skill from
+   [suspec-skills](https://github.com/jcosta33/suspec-skills).
 3. **A bounded-authoring worker** — `suspec-spec-author` / `suspec-researcher` / `suspec-auditor` /
    `suspec-documentarian` — when you want a disciplined, isolated, traced first draft of one artifact.
 
@@ -83,11 +83,10 @@ guarantee** (see [The science](#the-science)).
 
 | Agent                                                | Use it when                                                                                                            |
 | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| [`suspec-reviewer`](./agents/suspec-reviewer.md)     | Reviewing a **finished** task/PR (or a 1:1 review-to-spec) — re-run Verify, draft the packet + staleness pins, **no verdict**. Its **proof-first mode** re-runs the Verify items and pastes verbatim output only — the role the retired `suspec-evidence-checker` filled |
+| [`suspec-reviewer`](./agents/suspec-reviewer.md)     | Reviewing a **finished** task/PR (or a 1:1 review-to-spec) — re-run Verify, draft the packet + staleness pins, **no verdict**. Its **proof-first mode** re-runs the Verify items and pastes verbatim output only |
 | [`suspec-challenger`](./agents/suspec-challenger.md) | Pressure-testing a **not-yet-built** proposal/spec/plan — assumptions, the steelmanned alternative, external evidence  |
 
 For **code-location**, use the built-in **Explore** agent (see [Where to start](#where-to-start)).
-`suspec-evidence-checker` was retired and folded into `suspec-reviewer`'s proof-first mode.
 
 _Of these, only `suspec-reviewer` holds `Bash` (so the `readonly-guard` applies to it); `suspec-challenger`
 has no Bash and needs no guard._

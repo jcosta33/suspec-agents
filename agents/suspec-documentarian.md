@@ -42,5 +42,4 @@ examples, don't change the code. Value = the discipline + isolation + the trace,
 
 Self-contained, grounded in the canon (human-facing docs, examples run, claims cited).
 _Optional see-also, if you use it:_ the `write-documentation`
-guide (suspec-starter-kit), which carries the documentarian discipline (the standalone persona folded into
-the guide). Not a dependency.
+guide (suspec-starter-kit), which carries the documentarian discipline. Not a dependency.

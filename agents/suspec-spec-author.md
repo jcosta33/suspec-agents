@@ -58,4 +58,4 @@ sandbox. Write only the spec; do not modify code or other artifacts.
 
 Self-contained, grounded in the canon (intent as verifiable requirements; the human owns acceptance).
 _Optional see-also, if you use it:_ the kit's `write-spec` guide, which carries the architect
-discipline (the standalone persona folded into the guide). Not a dependency.
+discipline. Not a dependency.

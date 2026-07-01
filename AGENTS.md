@@ -4,7 +4,7 @@ This repo is the optional **agent-definition** catalog for the Suspec framework:
 Claude-Code-first worker definitions for Suspec roles, one file per agent under `agents/`, the
 delegation-provenance + read-only-guard hooks under `hooks/`, and the evidence behind their design
 under `docs/`. It is a derived-content repo — it carries no Suspec workspace install; the work of
-changing it is planned and reviewed in the family workspace (the sibling `suspec-works` repo). The
+changing it is planned and reviewed in the private family workspace. The
 founding decision is [ADR-0092](https://github.com/jcosta33/suspec/blob/main/docs/adrs/0092-suspec-agents-member.md)
 (the `ADR-NNNN` citations here are decision records in the
 [suspec repo](https://github.com/jcosta33/suspec/tree/main/docs/adrs)).
@@ -23,10 +23,9 @@ These definitions are **Claude-Code-first**, but the _prose discipline_ is porta
 reaches other runners without a second hand-maintained copy:
 
 - **The definitions are the single source.** `suspec agents emit --codex`
-  ([suspec-cli](https://github.com/jcosta33/suspec-cli)) projects each non-retired `agents/*.md` into an
+  ([suspec-cli](https://github.com/jcosta33/suspec-cli)) projects each `agents/*.md` definition into an
   OpenAI Codex `.codex/agents/<name>.toml` (`developer_instructions` = the body). It **generates**, never
-  duplicates — re-run it after editing a definition; do not hand-edit the TOML. A `status: retired` stub
-  is emit-skipped, so fewer TOMLs than `.md` files is expected and the no-diff guard stays green.
+  duplicates — re-run it after editing a definition; do not hand-edit the TOML.
 - **`AGENTS.md` is the open cross-tool format.** This file's discipline — evidence over assertion
   (ADR-0056), reconcile-only / no self-issued verdict (ADR-0077 D8), the delegation trace as
   reviewability not a guarantee (ADR-0088), honesty levels (ADR-0063) — is the layer that ports to any
@@ -36,13 +35,13 @@ reaches other runners without a second hand-maintained copy:
   (`readonly-guard`, the delegation-provenance trace) are **Claude-Code structural mechanisms** — they
   do not port. A Codex (or other) adopter gets the prose discipline and must grant/deny tools in their
   own runner config; the read-only guarantee is honor-system there. Every emitted file says so in its
-  header. Enforcement is Claude-Code-only; the discipline is everywhere.
-- **Antigravity: considered, dropped (ADR-0098).** No honest file-emitter target (managed agents are
-  configured programmatically); the universal `AGENTS.md` discipline reaches it without an adapter, so no
-  Antigravity emitter ships. Full reasoning in [docs/runners.md](docs/runners.md#the-portable-layer-shipped--adr-0098).
-- **The do-not-found gate / measurement wave is the honest exception (ADR-0092).** Demonstrating value
-  across ≥2 _real external_ runner teams is un-fabricatable here; it stays a standing owner-run
-  activity, not a build item.
+  header. Those mechanisms are Claude-Code-only; the discipline is everywhere.
+- **Runner targets stay concrete (ADR-0098).** The committed emitter targets Codex because it has a
+  file format this repo can generate honestly. Runners configured only through managed APIs rely on the
+  universal `AGENTS.md` discipline until they expose a file-based adapter target. Details:
+  [docs/runners.md](docs/runners.md#the-portable-layer-shipped--adr-0098).
+- **External adoption evidence is owner-run (ADR-0092).** Demonstrating value across multiple real
+  runner teams requires live adopters; it is tracked as an owner activity, not simulated inside this repo.
 
 ## Editing rules
 
@@ -69,4 +68,4 @@ reaches other runners without a second hand-maintained copy:
 
 | Slot | Command | Resolves                                                                                                    |
 | ---- | ------- | ----------------------------------------------------------------------------------------------------------- |
-| —    | (none)  | markdown + shell-hook repo; content is checked by review (the suspec-works workspace cuts and reviews changes) |
+| —    | (none)  | markdown + shell-hook repo; content is checked by review from the private family workspace |

@@ -3,8 +3,8 @@ name: suspec-reviewer
 description: >-
   Review a FINISHED change — a completed diff/PR or a task marked review-ready — against its spec,
   read-only: re-run the task's Verify checks yourself, read the diff, and draft a review packet of facts
-  and human-attention items WITHOUT issuing the verdict. Also runs in PROOF-FIRST MODE (the folded-in
-  evidence-checker): re-run the Verify items and paste verbatim output only, no full packet. ALWAYS
+  and human-attention items WITHOUT issuing the verdict. Also runs in PROOF-FIRST MODE: re-run the
+  Verify items and paste verbatim output only, no full packet. ALWAYS
   apply, use proactively, when a diff/PR or review-ready task exists to judge. Boundary: there must be a
   diff/PR — if there is NO change under review (a whole-area present-state read), that is suspec-auditor;
   a not-yet-built proposal is suspec-challenger; turning intent into requirements is suspec-spec-author.
@@ -35,8 +35,8 @@ write idioms; it is a tripwire, not a wall. You draft; the human decides.
    results. Resolve commands from the workspace `AGENTS.md` (`cmdTest`, `cmdLint`, …); if one is
    undefined, ask — never guess. **Confirm each run actually collected the named tests** — a filter
    matching zero tests exits 0 but proves nothing; check the ran/collected count, not just the exit code.
-   **Proof-first mode (folds in the retired `suspec-evidence-checker`):** when you only need the checks
-   re-run and the evidence pasted — not a full review — do _just this step_: paste verbatim output
+   **Proof-first mode:** when you only need the checks re-run and the evidence pasted — not a full
+   review — do _just this step_: paste verbatim output
    (command · last lines · exit status) per Verify item and flag every claim with no matching re-run as
    **Unverified**, then stop before the diff-read (step 4), the maintainability lenses (step 5), and the
    coverage table (step 6). Same no-verdict contract — you produce evidence, the human decides.

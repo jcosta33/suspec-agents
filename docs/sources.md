@@ -1,7 +1,7 @@
 # Sources
 
 The evidence behind suspec-agents' design and its honest-scope claims. Verified in the deep-research
-refresh of 2026-06-21 (suspec-works `specs/suspec-agents/research-shipping.md`, 3-vote adversarial
+refresh of 2026-06-21 (private workspace research record, 3-vote adversarial
 verification); re-check primary sources before relying on a version-specific detail.
 
 > **Citations live here, not in the agent products.** An `agents/*.md` definition is a product — the

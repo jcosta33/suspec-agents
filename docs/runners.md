@@ -75,12 +75,12 @@ weaker runners, the design is **one source, generated adapters**:
   assertion, reconcile-only/no-verdict, the trace as reviewability, honesty levels) is single-sourced
   in this repo's `AGENTS.md`, the open cross-tool format read by Codex, Cursor, Copilot, Gemini CLI,
   and Aider. The per-agent files are its Claude-Code specialization — no hand-duplicated `SKILL.md`.
-- **Antigravity — dropped.** Google Antigravity's managed agents are configured programmatically, not
-  via a portable definition file, so there is no honest file-emitter target. The universal `AGENTS.md`
-  discipline reaches it without an adapter; no Antigravity emitter ships.
+- **Managed-runner support.** Runners configured through managed APIs, rather than portable definition
+  files, use the universal `AGENTS.md` discipline. A file emitter ships only when the runner exposes a
+  file-based adapter target.
 
-What ships is the emitter + the universal layer; the **value proof** — measured across ≥2 real
-external runner teams — does not, and cannot be faked (see [The gate this bears on](#the-gate-this-bears-on)).
+What ships is the emitter + the universal layer; the **value proof** requires measured use by multiple
+real external runner teams (see [The gate this bears on](#the-gate-this-bears-on)).
 
 ## Per-agent model — an optional adopter knob (not shipped)
 

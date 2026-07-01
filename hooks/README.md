@@ -10,7 +10,10 @@ executor or a guarantee** — they raise reviewability and the bar, nothing more
 **in-session subagents** — the ones the main agent spawns through Claude Code's own Agent tool —
 never touch the CLI. This hook is producer 2: one NDJSON trace line per subagent event in
 `.suspec/work/delegations.ndjson`, so delegation is reviewable too. A record, never a verdict
-(ADR-0077 D8); always exits 0, so provenance never blocks the agent.
+(ADR-0077 D8); always exits 0, so provenance never blocks the agent. The trace is plaintext and can
+carry prompt/model-output content — add `.suspec/work/` to the **consuming repo's** `.gitignore`
+(`echo '.suspec/work/' >> <your-repo>/.gitignore`); this repo's own gitignore does not travel with
+the copy-install.
 
 ```json
 {
@@ -60,7 +63,8 @@ This `PreToolUse` hook `exit 2`-blocks the obvious source-mutating / destructive
 `git commit`/`push`/`add`/`reset`/`restore`/`stash`/`rm`/`checkout`/`clean`/`switch` (matched by
 subcommand, so `git -C <dir> commit` and `git --no-pager push` are caught too; a read-only
 `--dry-run`/`--help`, or `git clean -n`/`add -n`, is allowed), `sed -i`,
-`rm`/`rmdir`/`mv`/`chmod`/`chown`, and `*publish` — anchored to each segment's leading command word
+`rm`/`rmdir`/`mv`/`chmod`/`chown`, and `npm`/`yarn`/`pnpm publish` (other publishers — `cargo publish`,
+`gem push`, `npx … publish` — are NOT matched) — anchored to each segment's leading command word
 (after peeling `sudo`/`xargs` wrappers, a leading subshell `(`/`{`, and `VAR=val` prefixes). It is a
 global `Bash` matcher, so it fires for **any** agent granted Bash: the Tier-1 `suspec-reviewer` agent
 and — where you want their shell use kept read-only — the Tier-2 `suspec-auditor`/`suspec-documentarian`.

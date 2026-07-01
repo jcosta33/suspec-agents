@@ -9,9 +9,11 @@
 #
 # It is a RECORD/CHECK, not an executor (ADR-0077): it runs the real emitter and diffs; it edits nothing.
 #
-# Two failure modes, both caught:
-#   1. content drift / a missing TOML — `emit --force` rewrites it, `git diff` shows the change;
-#   2. an ORPHAN TOML — an agent whose `agents/*.md` source was deleted but whose generated
+# Three failure modes, all caught:
+#   1. content drift — `emit --force` rewrites a committed TOML, `git diff` shows the change;
+#   2. a MISSING TOML — a new agents/<name>.md whose generated TOML was never committed: emit creates
+#      it as an UNTRACKED file (invisible to `git diff`), caught by the untracked-files check;
+#   3. an ORPHAN TOML — an agent whose `agents/*.md` source was deleted but whose generated
 #      `.codex/agents/<name>.toml` lingers (emit only writes, never deletes) — caught by name comparison.
 #
 # Usage: run from the repo root.  `bash scripts/check-codex-sync.sh`  → exit 0 clean, non-zero on drift.
@@ -75,6 +77,17 @@ if [ -n "$orphans" ]; then
     echo "check-codex-sync: FAIL — orphan generated TOML(s) with no agents/*.md source:$orphans" >&2
     echo "  An agent definition was removed but its generated .codex TOML lingers. Delete it:" >&2
     for o in $orphans; do echo "    git rm .codex/agents/$o" >&2; done
+    exit 1
+fi
+
+# Untracked check: a NEW agents/<name>.md whose generated TOML was never committed shows up here as an
+# untracked file — `git diff` alone is blind to it and would report a clean sync.
+untracked=$(git ls-files --others --exclude-standard -- .codex/)
+if [ -n "$untracked" ]; then
+    echo "check-codex-sync: FAIL — uncommitted generated TOML(s):" >&2
+    printf '    %s\n' $untracked >&2
+    echo "  A new agent's generated .codex TOML exists but was never committed. Commit it:" >&2
+    echo "    git add .codex/ && git commit" >&2
     exit 1
 fi
 

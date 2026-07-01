@@ -1,8 +1,9 @@
 # Sources
 
-The evidence behind suspec-agents' design and its honest-scope claims. Verified in the deep-research
-refresh of 2026-06-21 (private workspace research record, 3-vote adversarial
-verification); re-check primary sources before relying on a version-specific detail.
+The evidence behind suspec-agents' design and its honest-scope claims. Last verified 2026-06-21 in a
+deep-research refresh whose record lives in the maintainers' private workspace (not publicly linkable —
+the URLs below are the checkable part); re-check primary sources before relying on a version-specific
+detail.
 
 > **Citations live here, not in the agent products.** An `agents/*.md` definition is a product — the
 > instructions Claude Code runs. It states its rule plainly ("the human owns the result"); the canon
@@ -49,7 +50,8 @@ verification); re-check primary sources before relying on a version-specific det
 
 - ADR-0088 (delegation-provenance contract), ADR-0077 (reconcile-only / a record never a verdict),
   ADR-0056 (adversarial self-review), ADR-0063 (honesty framework / levels), ADR-0092 (founding
-  suspec-agents) — the `ADR-NNNN` citations in these docs live at
+  suspec-agents), ADR-0098 (portability), ADR-0122 (Revolver Review — the bounded review panel),
+  ADR-0124 (opt-in per-lens cost tiers) — the `ADR-NNNN` citations in these docs live at
   [github.com/jcosta33/suspec/tree/main/docs/adrs](https://github.com/jcosta33/suspec/tree/main/docs/adrs).
 
 ## Paired guides and adjacent disciplines (optional see-alsos)

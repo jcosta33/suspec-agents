@@ -61,11 +61,14 @@ reaches other runners without a second hand-maintained copy:
 - **Honesty (ADR-0063):** never label anything "enforced". Read-only scoping is **toolable/partial**
   (defeasible — see `docs/enforcement.md`); a trace buys reviewability/attribution, not a guarantee.
 - **No verdict (ADR-0077 D8):** a worker drafts and reports; it never records Pass/Fail or closes a task.
-- Markdown + the two POSIX-sh hook scripts only — no other executables, no network calls.
+- The **installable surface** is markdown + the two POSIX-sh hook scripts only — no other executables,
+  no network calls. Repo-side, one more executable exists: `scripts/check-codex-sync.sh` (the CI-only
+  `.codex/` no-diff guard, which runs the suspec-cli emitter) — it is never part of a copy-install.
 - The catalog tables in `README.md` gain/lose a row with every agent added/removed.
 
 ## Commands
 
-| Slot | Command | Resolves                                                                                                    |
-| ---- | ------- | ----------------------------------------------------------------------------------------------------------- |
-| —    | (none)  | markdown + shell-hook repo; content is checked by review from the private family workspace |
+| Slot     | Command                           | Resolves                                                                                    |
+| -------- | --------------------------------- | ------------------------------------------------------------------------------------------- |
+| cmdCheck | `bash scripts/check-codex-sync.sh` | the `.codex/` no-diff guard (needs suspec-cli on PATH or as a sibling checkout)             |
+| —        | (none)                            | everything else is markdown, checked by review from the private family workspace            |

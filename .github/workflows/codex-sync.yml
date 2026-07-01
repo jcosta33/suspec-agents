@@ -5,6 +5,10 @@ name: codex-sync
 # the committed `.codex/` drifts from what `suspec agents emit --codex` produces, so a stale TOML is
 # caught in CI rather than discovered later.
 
+# Check-only job: it needs to read two public repos and nothing else.
+permissions:
+  contents: read
+
 on:
   push:
     paths:
@@ -25,6 +29,8 @@ jobs:
     steps:
       - name: Check out suspec-agents
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -34,16 +40,19 @@ jobs:
       # Install the suspec CLI so `suspec agents emit --codex` is available. Replace this with the real
       # install once suspec-cli is published (e.g. `npm i -g @suspec/cli`); until then, check out the
       # sibling suspec-cli and point the guard at it via SUSPEC_EMIT.
+      # The suspec-cli ref deliberately floats: the guard's job is to verify the TOMLs stay in sync
+      # with the CURRENT emitter, not a pinned one.
       - name: Install suspec CLI (sibling checkout — prereq)
         uses: actions/checkout@v4
         with:
           repository: jcosta33/suspec-cli
           path: suspec-cli
+          persist-credentials: false
       - name: Build suspec CLI
         working-directory: suspec-cli
         run: |
           corepack enable
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Run the .codex no-diff guard
         env:

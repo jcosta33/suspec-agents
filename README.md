@@ -27,6 +27,9 @@ cp agents/suspec-reviewer.md <your-repo>/.claude/agents/
 cp hooks/delegations.sh <your-repo>/.claude/hooks/ && chmod +x <your-repo>/.claude/hooks/delegations.sh
 # the read-only guard for the Bash-holding workers
 cp hooks/readonly-guard.sh <your-repo>/.claude/hooks/ && chmod +x <your-repo>/.claude/hooks/readonly-guard.sh
+
+# if you installed delegations.sh: keep its plaintext trace out of your history
+echo '.suspec/work/' >> <your-repo>/.gitignore
 ```
 
 Copy-based by design: these are Claude Code **agents** (`.claude/agents/`), not Agent-Skills
@@ -46,8 +49,8 @@ A consuming repo's `AGENTS.md` fills the slots — for example:
 | cmdTest | `npm test`     |
 | cmdLint | `npm run lint` |
 
-(This repo's own [AGENTS.md](./AGENTS.md) Commands table reads `(none)` — it is markdown-only, with no
-test/lint of its own to run.)
+(This repo's own [AGENTS.md](./AGENTS.md) Commands table carries one check —
+`bash scripts/check-codex-sync.sh`, the `.codex/` no-diff guard — and nothing else.)
 
 ## Where to start
 
@@ -122,13 +125,16 @@ shell use kept read-only._
 
 ## Security
 
-Read an agent before installing it — a definition is instructions your agent will follow. Everything
-here is plain markdown plus two short POSIX-sh hooks; the hooks make no network calls and run no other
-executables (the `suspec-challenger` and `suspec-researcher` agents do request `WebSearch`/`WebFetch` for
-external grounding — read those two before installing). The read-only guarantees are **partial** (see
-`docs/enforcement.md`): a `tools` allowlist + a tripwire hook raise the bar but do not sandbox a shell.
-The delegation trace is written in plaintext under `.suspec/work/` (gitignored) and can contain prompt
-and model-output content — treat it as sensitive at rest. Pin to a commit for a stable install.
+Read an agent before installing it — a definition is instructions your agent will follow. What you
+install is plain markdown plus two short POSIX-sh hooks; the hooks make no network calls and run no
+other executables (the `suspec-challenger` and `suspec-researcher` agents do request
+`WebSearch`/`WebFetch` for external grounding — read those two before installing). The repo itself
+additionally carries a CI-only sync-check script (`scripts/check-codex-sync.sh`, which runs the
+suspec-cli emitter) and its workflow — neither is part of a copy-install. The read-only guarantees are
+**partial** (see `docs/enforcement.md`): a `tools` allowlist + a tripwire hook raise the bar but do not
+sandbox a shell. The delegation trace is written in plaintext under `.suspec/work/` and can contain
+prompt and model-output content — gitignore it in your repo (this repo does; the install snippet above
+includes the line) and treat it as sensitive at rest. Pin to a commit for a stable install.
 
 ## Relationship to the Suspec framework
 

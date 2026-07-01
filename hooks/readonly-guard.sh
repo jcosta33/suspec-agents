@@ -50,6 +50,7 @@ deny=
 oldifs="$IFS"
 IFS='
 '
+set -f  # a segment can carry glob characters; without this, pathname expansion could rewrite it against cwd filenames before matching
 for seg in $(printf '%s' "$cmd" | tr ';|&\n' '\n\n\n\n'); do
     seg="${seg#"${seg%%[![:space:]]*}"}"             # strip leading whitespace
     # Peel a leading wrapper word or a VAR=val assignment, re-stripping each time — so `sudo rm`,
@@ -120,6 +121,7 @@ for seg in $(printf '%s' "$cmd" | tr ';|&\n' '\n\n\n\n'); do
             deny="$seg"; break ;;
     esac
 done
+set +f
 IFS="$oldifs"
 
 if [ -n "$deny" ]; then

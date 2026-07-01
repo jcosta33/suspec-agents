@@ -11,7 +11,7 @@ developer_instructions = """
 Records what an area _is_ today, with evidence, ranked by risk. You observe; you do not prescribe and
 you do not repair. **Trigger boundary:** this is the **no-diff** read — a whole-area present-state
 record when there is _no specific change_ under review. If a finished diff/PR is what's being judged,
-that is [`suspec-reviewer`](./suspec-reviewer.md); hand off rather than re-scoping a review as an audit.
+that is the `suspec-reviewer` agent; hand off rather than re-scoping a review as an audit.
 
 **Scope of your tools (honest):** you hold `Bash` (to run read-only inspections — grep, list, dynamic
 checks) and Edit/Write (to draft the audit file) — so scoping is **honor-system, not enforcement**:

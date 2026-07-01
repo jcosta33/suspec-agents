@@ -92,7 +92,8 @@ built-in Explore agent, or `suspec-reviewer` in its proof-first mode), a stronge
 `suspec-reviewer` for a full review / `suspec-challenger` (judgement). We ship no defaults on purpose;
 the knob is yours.
 
-**Per-lens cost tiers (opt-in, ADR-0124).** For a multi-lens Revolver review, map roles to abstract tiers
+**Per-lens cost tiers (opt-in, ADR-0124).** For a multi-lens Revolver review (the bounded,
+lead-orchestrated review panel — ADR-0122), map roles to abstract tiers
 (`cheap` / `mid` / `strong`) and let the runner resolve each alias — route the blind lens reviewers to a
 cheaper tier and the reconciling lead plus high-risk lenses (security, architecture) to a stronger one; a
 mixed-tier panel should also help decorrelate the reviewers (ADR-0124). Two rules keep it honest: model **size is not a quality
